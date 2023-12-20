@@ -31,11 +31,18 @@ const shortAbstractFile = (lang) =>
     fileName: outputZipName(lang),
   });
 
+  let processedLines = 0;
   for await (const line of lineReader) {
     await processLine(line, dict, lang);
+    processedLines++;
+    if (processedLines % 1000 === 0) {
+      console.log(`Processed ${processedLines} lines`);
+    }
   }
 
-  dict.setIndex({
+  console.log(`Processed ${processedLines} lines, exporting...`);
+
+  await dict.setIndex({
     title: `${lang} Wikipedia [${date}]`,
     revision: `wikipedia_${new Date().toISOString()}`,
     format: 3,
@@ -50,7 +57,8 @@ div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
     attribution: `https://${lang.toLowerCase()}.wikipedia.org/`,
   });
 
-  dict.export('./');
+  await dict.export('./');
+  console.log(`Exported to ${outputZipName(lang)}`);
 })().catch((e) => {
   console.error(e);
 });

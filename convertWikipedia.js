@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
-import { Dictionary } from 'yomichan-dict-builder';
+import { Dictionary, TermEntry } from 'yomichan-dict-builder';
 import { pinyin } from 'pinyin-pro';
 
 const languagesAllowed = {
@@ -10,8 +10,10 @@ const languagesAllowed = {
 };
 
 const linkCharacter = '⧉';
-const outputZipName = (lang) => `[${lang}-${lang} Encyclopedia] ${lang} Wikipedia.zip`;
-const shortAbstractFile = (lang) => `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
+const outputZipName = (lang) =>
+  `[${lang}-${lang} Encyclopedia] ${lang} Wikipedia.zip`;
+const shortAbstractFile = (lang) =>
+  `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
 (async () => {
   const { lang, date } = readArgs();
@@ -28,25 +30,27 @@ const shortAbstractFile = (lang) => `short-abstracts_lang=${lang.toLowerCase()}.
     // @ts-ignore
     fileName: outputZipName(lang),
   });
+
   for await (const line of lineReader) {
     await processLine(line, dict, lang);
   }
-  const index = {
-    title: `JA Wikipedia [${date}]`,
+
+  dict.setIndex({
+    title: `${lang} Wikipedia [${date}]`,
     revision: `wikipedia_${new Date().toISOString()}`,
     format: 3,
-    url: 'https://ja.wikipedia.org/',
+    url: 'https://github.com/MarvNC/wikipedia-yomitan',
     description: `Wikipedia short abstracts from the DBPedia dataset available at https://databus.dbpedia.org/dbpedia/text/short-abstracts.
 
 Recommended custom CSS:
-div.gloss-sc-div[data-sc-jawiki=red] {
+div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
   color: #e5007f;
-}
-
-Created with https://github.com/MarvNC/yomichan-dictionaries`,
+}`,
     author: 'Wikipedians, DBPedia, Marv',
-    attribution: 'Wikipedia',
-  };
+    attribution: `https://${lang.toLowerCase()}.wikipedia.org/`,
+  });
+
+  dict.export('./');
 })().catch((e) => {
   console.error(e);
 });
@@ -60,7 +64,9 @@ Created with https://github.com/MarvNC/yomichan-dictionaries`,
 function processLine(line, dict, lang) {
   // remove last 6 characters
   line = line.slice(0, -6);
-  const [resource, definition] = line.split('> <http://www.w3.org/2000/01/rdf-schema#comment> "');
+  const [resource, definition] = line.split(
+    '> <http://www.w3.org/2000/01/rdf-schema#comment> "'
+  );
   let termSlug = resource.split('.dbpedia.org/resource/').pop();
   if (!termSlug) {
     throw new Error(`Could not parse term slug from ${resource}`);
@@ -76,6 +82,8 @@ function processLine(line, dict, lang) {
   }
   term = term.replace(/_/g, ' ');
 
+  const termEntry = new TermEntry(term);
+
   let reading = '';
   if (lang === languagesAllowed.ja) {
     reading = getReadingFromDefinition(definition);
@@ -83,13 +91,88 @@ function processLine(line, dict, lang) {
     reading = pinyin(term, { mode: 'surname' });
     reading = reading.replace(/ /g, '');
   }
+  termEntry.setReading(reading);
 
   /**
-   * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').DetailedDefinition}
+   * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContent[]}
    */
-  const detailedDefinition = [];
-  
-  debugger;
+  const structuredContentList = [];
+
+  // Add term specifier heading if exists
+  if (termSpecifier) {
+    /**
+     * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContentNode}
+     */
+    const specifierSCNode = {
+      tag: 'div',
+      content: `«${termSpecifier}»`,
+      data: {
+        wikipedia: 'term-specifier',
+      },
+      style: {
+        fontSize: '1.5em',
+      },
+    };
+
+    structuredContentList.push(specifierSCNode);
+  }
+
+  const definitionStrings = definition.split('\\n').map((line) => line.trim());
+  /**
+   * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContentNode}
+   */
+  const definitionUList = {
+    tag: 'ul',
+    content: definitionStrings.map((definitionString) => ({
+      tag: 'li',
+      content: definitionString,
+    })),
+    data: {
+      wikipedia: 'abstract',
+    },
+  };
+  structuredContentList.push(definitionUList);
+
+  // Read more
+  const articleLink = `https://${lang.toLowerCase()}.wikipedia.org/wiki/${termSlug}`;
+  const readTheRest =
+    lang === languagesAllowed.ja
+      ? '続きを読む'
+      : lang === languagesAllowed.zh
+      ? '查看更多'
+      : 'Read more';
+  /**
+   * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContentNode}
+   */
+  const linkSC = {
+    tag: 'ul',
+    content: [
+      {
+        tag: 'li',
+        content: [
+          {
+            tag: 'a',
+            href: articleLink,
+            content: readTheRest,
+          },
+        ],
+      },
+    ],
+    data: {
+      wikipedia: 'continue-reading',
+    },
+    style: {
+      listStyleType: `"${linkCharacter}"`,
+    },
+  };
+  structuredContentList.push(linkSC);
+
+  termEntry.addDetailedDefinition({
+    type: 'structured-content',
+    content: structuredContentList,
+  });
+
+  dict.addTerm(termEntry.build());
 }
 
 /**

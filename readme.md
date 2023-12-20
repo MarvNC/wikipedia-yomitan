@@ -37,10 +37,10 @@ div.gloss-sc-div[data-sc-wikipedia='term-specifier'] {
 
 ## Download
 
-**[Download JA Wikipedia for Yomitan](https://drive.google.com/open?id=12cNjVi6jl7t-7YR3Prleg9jqqBSlZ1e6&usp=drive_fs)**
-(~1.2M entries)
-**[Download ZH Wikipedia for Yomitan](https://drive.google.com/open?id=14VIQE88lyJaIp75nRi7w4Rva-zG1Yvta&usp=drive_fs)**
-(~1.2M entries)
+- **[Download JA Wikipedia for Yomitan](https://drive.google.com/open?id=12cNjVi6jl7t-7YR3Prleg9jqqBSlZ1e6&usp=drive_fs)**
+  (~1.2M entries)
+- **[Download ZH Wikipedia for Yomitan](https://drive.google.com/open?id=14VIQE88lyJaIp75nRi7w4Rva-zG1Yvta&usp=drive_fs)**
+  (~1.2M entries)
 
 ## Screenshots
 

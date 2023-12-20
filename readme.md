@@ -44,6 +44,10 @@ div.gloss-sc-div[data-sc-wikipedia='term-specifier'] {
 
 ## Screenshots
 
+![chrome_First_Love_初恋_-_Wikiwand_-_Google_Chrome_2023-12-17_14-49-50](https://github.com/MarvNC/wikipedia-yomitan/assets/17340496/29c2d99a-ea26-4702-8bef-5c57ac37ece7)
+![chrome_Silent_(テレビドラマ)_-_Wikiwand_-_Google_Chrome_2023-12-17_14-31-07](https://github.com/MarvNC/wikipedia-yomitan/assets/17340496/194dd4ca-c833-4cfd-9127-95a16669e445)
+![chrome_维基百科，自由的百科全书_-_Google_Chrome_2023-12-19_17-41-33](https://github.com/MarvNC/wikipedia-yomitan/assets/17340496/8c6b0eda-d58d-4102-b1dc-e9934fb239d8)
+
 ## License
 
 The code in this repository is licensed under the MIT license.

@@ -13,6 +13,15 @@ Built using
 more Yomitan dictionaries and tools, see
 [Yomichan Dictionaries](https://github.com/MarvNC/yomichan-dictionaries).
 
+## Download
+
+- **[Download JA Wikipedia for Yomitan](https://drive.google.com/open?id=12cNjVi6jl7t-7YR3Prleg9jqqBSlZ1e6&usp=drive_fs)**
+  (~1.2M entries)
+- **[Download ZH Wikipedia for Yomitan](https://drive.google.com/open?id=14VIQE88lyJaIp75nRi7w4Rva-zG1Yvta&usp=drive_fs)**
+  (~1.2M entries)
+
+# Usage
+
 Recommended custom CSS to add to the `Configure custom CSS…` section of the
 options page:
 
@@ -34,13 +43,6 @@ div.gloss-sc-div[data-sc-wikipedia='term-specifier'] {
 > [!IMPORTANT] 
 > These dictionaries are quite large and may use up to 1GB of
 > storage space after being imported.
-
-## Download
-
-- **[Download JA Wikipedia for Yomitan](https://drive.google.com/open?id=12cNjVi6jl7t-7YR3Prleg9jqqBSlZ1e6&usp=drive_fs)**
-  (~1.2M entries)
-- **[Download ZH Wikipedia for Yomitan](https://drive.google.com/open?id=14VIQE88lyJaIp75nRi7w4Rva-zG1Yvta&usp=drive_fs)**
-  (~1.2M entries)
 
 ## Screenshots
 

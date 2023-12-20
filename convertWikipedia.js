@@ -1,7 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
-const { Dictionary } = require('yomichan-dict-builder');
+import fs from 'fs';
+import path from 'path';
+import readline from 'readline';
+import { Dictionary } from 'yomichan-dict-builder';
+import { pinyin } from 'pinyin-pro';
 
 const languagesAllowed = {
   ja: 'JA',
@@ -16,7 +17,7 @@ const shortAbstractFile = (lang) => `short-abstracts_lang=${lang.toLowerCase()}.
   const { lang, date } = readArgs();
   console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
 
-  const filePath = path.join(__dirname, shortAbstractFile(lang));
+  const filePath = shortAbstractFile(lang);
   const fileStream = fs.createReadStream(filePath);
   const lineReader = readline.createInterface({
     input: fileStream,
@@ -79,9 +80,15 @@ function processLine(line, dict, lang) {
   if (lang === languagesAllowed.ja) {
     reading = getReadingFromDefinition(definition);
   } else if (lang === languagesAllowed.zh) {
-
+    reading = pinyin(term, { mode: 'surname' });
+    reading = reading.replace(/ /g, '');
   }
 
+  /**
+   * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').DetailedDefinition}
+   */
+  const detailedDefinition = [];
+  
   debugger;
 }
 
@@ -126,7 +133,7 @@ function parseReadingFromBrackets(bracketContent) {
 
 function readArgs() {
   // Read arguments: node convertWikipedia.js [language] [date of dump]
-  const langInput = process.argv[3];
+  const langInput = process.argv[2];
   // Assert language is valid
   if (!languagesAllowed[langInput.toLowerCase()]) {
     throw new Error(
@@ -138,7 +145,7 @@ function readArgs() {
 
   const lang = languagesAllowed[langInput.toLowerCase()];
 
-  const dateInput = process.argv[2];
+  const dateInput = process.argv[3];
   // Assert date is valid in format YYYY-MM-DD
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
     throw new Error(`Date ${dateInput} is not valid. Format: YYYY-MM-DD`);

@@ -94,7 +94,7 @@ function processLine(line, dict, lang) {
 
   let reading = '';
   if (lang === languagesAllowed.ja) {
-    reading = getReadingFromDefinition(definition);
+    reading = getReadingFromDefinition(definition, term);
   } else if (lang === languagesAllowed.zh) {
     reading = pinyin(term, { mode: 'surname' });
     reading = reading.replace(/ /g, '');
@@ -185,25 +185,34 @@ function processLine(line, dict, lang) {
 
 /**
  * @param {string} definition
+ * @param {string} term
  * @returns {string}
  */
-function getReadingFromDefinition(definition) {
+function getReadingFromDefinition(definition, term) {
   const bracketRegex = /[(（]([^)）]*)/g;
   const bracketMatches = bracketRegex.exec(definition);
   // @ts-ignore
   if (bracketMatches?.length >= 1) {
     // @ts-ignore
     const bracketContent = bracketMatches[1];
-    return parseReadingFromBrackets(bracketContent);
+    // Check if the bracket is at the beginning of the definition or closely following the term
+    const bracketIndex = definition.indexOf(bracketContent);
+    const termIndex = definition.indexOf(term) ?? 0;
+    const termEndIndex = termIndex + term.length;
+    if (bracketIndex - termEndIndex > 5) {
+      return '';
+    }
+    return parseReadingFromBrackets(bracketContent, term);
   }
   return '';
 }
 
 /**
  * @param {string} bracketContent
+ * @param {string} term
  * @returns {string}
  */
-function parseReadingFromBrackets(bracketContent) {
+function parseReadingFromBrackets(bracketContent, term) {
   if (!bracketContent) return '';
 
   const commaRegex = /,|、/g;
@@ -213,8 +222,15 @@ function parseReadingFromBrackets(bracketContent) {
 
   const noKanji = readings.filter((reading) => !kanjiRegex.test(reading));
 
-  if (noKanji.length > 0) {
-    let reading = noKanji[0];
+  const latinRegex = /[a-zA-Z]/g;
+  const termHasLatin = latinRegex.test(term);
+
+  const readingCandidates = termHasLatin
+    ? noKanji.filter((reading) => latinRegex.test(reading))
+    : noKanji;
+
+  if (readingCandidates.length > 0) {
+    let reading = readingCandidates[0];
     reading = reading.replace(/ /g, '');
     return reading;
   }

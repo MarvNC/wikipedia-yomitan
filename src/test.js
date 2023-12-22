@@ -70,6 +70,11 @@ const testCases = [
         term: '!HERO',
         expectedReading: '!HERO',
       },
+      {
+        line: `<http://zh.dbpedia.org/resource/维基百科> <http://www.w3.org/2000/01/rdf-schema#comment> "維基百科（英語：Wikipedia，i/ˌwɪkɪˈpiːdiə/ 或 i/ˌwɪkiˈpiːdiə/）是维基媒体基金会运营的一个多语言的線上百科全書，并以创建和维护作为开放式协同合作项目，特点是自由內容、自由编辑、自由版权。目前是全球網絡上最大且最受大眾歡迎的参考工具书，名列全球二十大最受歡迎的網站，其在搜尋引擎中排名亦較為靠前。維基百科目前由非營利組織維基媒體基金會負責營運。Wikipedia是混成詞，分别取自於網站核心技術「Wiki」以及英文中百科全書之意的「encyclopedia」。截至2021年初，所有語種的維基百科條目數量達5,500萬。"@zh .`,
+        term: '维基百科',
+        expectedReading: 'wéijībǎikē',
+      },
     ],
   },
 ];

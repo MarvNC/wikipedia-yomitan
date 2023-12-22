@@ -7,8 +7,7 @@ import { parseLine } from './parseLine.js';
 import { languagesAllowed } from './constants.js';
 
 const linkCharacter = '⧉';
-const outputZipName = (lang) =>
-  `[${lang}-${lang} Encyclopedia] ${lang} Wikipedia.zip`;
+const outputZipName = (lang) => `${lang} Wikipedia (v1.1).zip`;
 const shortAbstractFile = (lang) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 

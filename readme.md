@@ -15,9 +15,11 @@ more Yomitan dictionaries and tools, see
 
 ## Download
 
-- **[Download JA Wikipedia for Yomitan](https://drive.google.com/open?id=12cNjVi6jl7t-7YR3Prleg9jqqBSlZ1e6&usp=drive_fs)**
+**2023-12-21 Version 1.1**: Updated script for better parsing of readings.
+
+- **[Download JA Wikipedia for Yomitan](https://drive.google.com/open?id=14WEMNY3OhUclvQeKu1DylpMo5USmsnX3&usp=drive_fs)**
   (~1.2M entries)
-- **[Download ZH Wikipedia for Yomitan](https://drive.google.com/open?id=14VIQE88lyJaIp75nRi7w4Rva-zG1Yvta&usp=drive_fs)**
+- **[Download ZH Wikipedia for Yomitan](https://drive.google.com/open?id=14ZECT8FVl0KjxV3JPhzgdmIV8GEgx5ht&usp=drive_fs)**
   (~1.2M entries)
 
 # Usage

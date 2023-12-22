@@ -19,6 +19,11 @@ const jaTestCases = [
     expectedReading: '',
   },
   {
+    line: `<http://ja.dbpedia.org/resource/性的挿入> <http://www.w3.org/2000/01/rdf-schema#comment> "性的挿入（Sexual penetration）は、人間または動物による性行為の一種。膣・肛門・口などの穴に、陰茎を中心とする他の物体を挿入する行為を指す。医学用語や法律用語でもある。"@ja .`,
+    term: '性的挿入',
+    expectedReading: '',
+  },
+  {
     line: `<http://ja.dbpedia.org/resource/The_20th_Anniversary_Edition_1980-1999_his_words_and_music> <http://www.w3.org/2000/01/rdf-schema#comment> "『The 20th Anniversary Edition 1980-1999 his words and music』（ザ・トゥエンティース・アニバーサリー・エディション 1980-1999 ヒズ・ワーズ・アンド・ミュージック）は、2000年1月21日にEpic Records / M's Factoryから発売された佐野元春のベスト・アルバム。"@ja .`,
     term: 'The_20th_Anniversary_Edition_1980-1999_his_words_and_music',
     expectedReading:

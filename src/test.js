@@ -1,5 +1,4 @@
-import test from 'node:test';
-import assert from 'node:assert';
+import test from 'ava';
 
 import { parseLine } from './parseLine.js';
 
@@ -44,8 +43,8 @@ const jaTestCases = [
 ];
 
 for (const testCase of jaTestCases) {
-  test(`parseLine ja: ${testCase.term}`, () => {
+  test(`parseLine ja: ${testCase.term}`, (t) => {
     const { reading } = parseLine(testCase.line, languagesAllowed.ja);
-    assert.strictEqual(reading, testCase.expectedReading);
+    t.is(reading, testCase.expectedReading);
   });
 }

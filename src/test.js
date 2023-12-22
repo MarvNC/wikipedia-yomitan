@@ -3,6 +3,8 @@ import assert from 'node:assert';
 
 import { parseLine } from './parseLine.js';
 
+import { languagesAllowed } from './constants.js';
+
 /**
  * @typedef {Object} TestCase
  * @property {string} line
@@ -27,12 +29,12 @@ const jaTestCases = [
     line: `<http://ja.dbpedia.org/resource/The_20th_Anniversary_Edition_1980-1999_his_words_and_music> <http://www.w3.org/2000/01/rdf-schema#comment> "『The 20th Anniversary Edition 1980-1999 his words and music』（ザ・トゥエンティース・アニバーサリー・エディション 1980-1999 ヒズ・ワーズ・アンド・ミュージック）は、2000年1月21日にEpic Records / M's Factoryから発売された佐野元春のベスト・アルバム。"@ja .`,
     term: 'The_20th_Anniversary_Edition_1980-1999_his_words_and_music',
     expectedReading:
-      'ザ・トゥエンティース・アニバーサリー・エディション 1980-1999 ヒズ・ワーズ・アンド・ミュージック',
+      'ザ・トゥエンティース・アニバーサリー・エディション1980-1999ヒズ・ワーズ・アンド・ミュージック',
   },
   {
     line: `<http://ja.dbpedia.org/resource/みずしな孝之> <http://www.w3.org/2000/01/rdf-schema#comment> "みずしな 孝之（みずしな たかゆき、1973年7月10日 - ）は、日本の漫画家、舞台俳優。東京都大田区大森地区生まれ、板橋区出身。男性。本名は水科 孝之（読み同じ、役者時は本名を使用）。"@ja .`,
     term: 'みずしな孝之',
-    expectedReading: 'みずしな たかゆき',
+    expectedReading: 'みずしなたかゆき',
   },
   {
     line: `<http://ja.dbpedia.org/resource/!!!!!!!!/君という仮説> <http://www.w3.org/2000/01/rdf-schema#comment> "「!!!!!!!!/君という仮説」（ばんばんばん/きみというかせつ）は、2016年10月11日にT-Palette Recordsから発売、および配信された日本の女性アイドルグループ・アップアップガールズ（仮）の通算21枚目のCDシングルである。"@ja .`,
@@ -42,8 +44,8 @@ const jaTestCases = [
 ];
 
 for (const testCase of jaTestCases) {
-  test(`parseLine ja: ${testCase.line}`, () => {
-    const { reading } = parseLine(testCase.line, 'ja');
+  test(`parseLine ja: ${testCase.term}`, () => {
+    const { reading } = parseLine(testCase.line, languagesAllowed.ja);
     assert.strictEqual(reading, testCase.expectedReading);
   });
 }

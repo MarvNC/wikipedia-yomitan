@@ -6,6 +6,9 @@ const leewayAfterTerm = 10;
  * @returns {string}
  */
 function getReadingFromDefinition(definition, term) {
+  // Remove spaces from definition and term
+  definition = definition.replace(/ /g, '');
+  term = term.replace(/ /g, '');
   const bracketRegex = /[(（]([^)）]*)/g;
   const bracketMatches = bracketRegex.exec(definition);
   // @ts-ignore
@@ -43,8 +46,8 @@ function parseReadingFromBrackets(bracketContent, term) {
   const termHasLatin = latinRegex.test(term);
 
   const readingCandidates = termHasLatin
-    ? noKanji.filter((reading) => latinRegex.test(reading))
-    : noKanji;
+    ? noKanji
+    : noKanji.filter((reading) => !latinRegex.test(reading));
 
   if (readingCandidates.length > 0) {
     let reading = readingCandidates[0];

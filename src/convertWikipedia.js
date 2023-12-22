@@ -2,12 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
 import { Dictionary, TermEntry } from 'yomichan-dict-builder';
-import { pinyin } from 'pinyin-pro';
 
-const languagesAllowed = {
-  ja: 'JA',
-  zh: 'ZH',
-};
+import { parseLine } from './parseLine.js';
+import { languagesAllowed } from './constants.js';
 
 const linkCharacter = '⧉';
 const outputZipName = (lang) =>
@@ -70,35 +67,12 @@ div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
  * @param {string} lang
  */
 function processLine(line, dict, lang) {
-  // remove last 6 characters
-  line = line.slice(0, -6);
-  const [resource, definition] = line.split(
-    '> <http://www.w3.org/2000/01/rdf-schema#comment> "'
+  const { term, termSlug, termSpecifier, reading, definition } = parseLine(
+    line,
+    lang
   );
-  let termSlug = resource.split('.dbpedia.org/resource/').pop();
-  if (!termSlug) {
-    throw new Error(`Could not parse term slug from ${resource}`);
-  }
-  termSlug = decodeURIComponent(termSlug);
-  let termSpecifier = '';
-  let term;
-  if (termSlug.includes('_(')) {
-    termSpecifier = termSlug.split('_(')[1].split(')')[0];
-    term = termSlug.split('_(')[0];
-  } else {
-    term = termSlug;
-  }
-  term = term.replace(/_/g, ' ');
 
   const termEntry = new TermEntry(term);
-
-  let reading = '';
-  if (lang === languagesAllowed.ja) {
-    reading = getReadingFromDefinition(definition);
-  } else if (lang === languagesAllowed.zh) {
-    reading = pinyin(term, { mode: 'surname' });
-    reading = reading.replace(/ /g, '');
-  }
   termEntry.setReading(reading);
 
   /**
@@ -181,45 +155,6 @@ function processLine(line, dict, lang) {
   });
 
   dict.addTerm(termEntry.build());
-}
-
-/**
- * @param {string} definition
- * @returns {string}
- */
-function getReadingFromDefinition(definition) {
-  const bracketRegex = /[(（]([^)）]*)/g;
-  const bracketMatches = bracketRegex.exec(definition);
-  // @ts-ignore
-  if (bracketMatches?.length >= 1) {
-    // @ts-ignore
-    const bracketContent = bracketMatches[1];
-    return parseReadingFromBrackets(bracketContent);
-  }
-  return '';
-}
-
-/**
- * @param {string} bracketContent
- * @returns {string}
- */
-function parseReadingFromBrackets(bracketContent) {
-  if (!bracketContent) return '';
-
-  const commaRegex = /,|、/g;
-  const kanjiRegex = /[一-龯]/g;
-
-  const readings = bracketContent.split(commaRegex);
-
-  const noKanji = readings.filter((reading) => !kanjiRegex.test(reading));
-
-  if (noKanji.length > 0) {
-    let reading = noKanji[0];
-    reading = reading.replace(/ /g, '');
-    return reading;
-  }
-
-  return '';
 }
 
 function readArgs() {

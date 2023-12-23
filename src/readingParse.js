@@ -11,16 +11,20 @@ function getReadingFromDefinition(definition, term) {
   term = term.replace(/ /g, '');
   const bracketRegex = /([(（]([^)）]*))/g;
   const bracketMatches = bracketRegex.exec(definition);
-  
+
   if (bracketMatches && bracketMatches.length >= 2) {
     // @ts-ignore
     const outerBracketContent = bracketMatches[1];
     const bracketContent = bracketMatches[2];
-    // Check if the bracket is at the beginning of the definition or closely following the term
     const bracketIndex = definition.indexOf(outerBracketContent);
     const termIndex = definition.indexOf(term) ?? 0;
     const termEndIndex = termIndex + term.length;
+    // If the bracket is not at the beginning of the definition or closely following the term, ignore it
     if (bracketIndex - termEndIndex > leewayAfterTerm) {
+      return '';
+    }
+    // If the bracket is within the term or before the term, ignore it
+    if (bracketIndex < termIndex) {
       return '';
     }
     return parseReadingFromBrackets(bracketContent, term);

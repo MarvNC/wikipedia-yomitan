@@ -7,7 +7,14 @@ import { parseLine } from './parseLine.js';
 import { languagesAllowed } from './constants.js';
 
 const linkCharacter = '⧉';
-const outputZipName = (lang, version) => `${lang} Wikipedia (v${version}).zip`;
+/**
+ * 
+ * @param {string} lang 
+ * @param {string} date 
+ * @param {string} version 
+ * @returns 
+ */
+const outputZipName = (lang, date, version) => `${lang} Wikipedia [${date}] (v${version}).zip`;
 const shortAbstractFile = (lang) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
@@ -40,7 +47,7 @@ const shortAbstractFile = (lang) =>
     }
   }
 
-  console.log(`Processed ${processedLines} lines, exporting...`);
+  console.log(`Processed ${processedLines} lines, exporting zip...`);
 
   await dict.setIndex({
     title: `${lang} Wikipedia [${date}] (v${version})`,
@@ -58,7 +65,7 @@ div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
   });
 
   await dict.export('./');
-  console.log(`Exported to ${outputZipName(lang)}`);
+  console.log(`Exported to ${outputZipName(lang, date, version)}`);
 })().catch((e) => {
   console.error(e);
 });

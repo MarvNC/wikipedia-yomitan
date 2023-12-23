@@ -9,14 +9,15 @@ function getReadingFromDefinition(definition, term) {
   // Remove spaces from definition and term
   definition = definition.replace(/ /g, '');
   term = term.replace(/ /g, '');
-  const bracketRegex = /[(（]([^)）]*)/g;
+  const bracketRegex = /([(（]([^)）]*))/g;
   const bracketMatches = bracketRegex.exec(definition);
-  // @ts-ignore
-  if (bracketMatches?.length >= 1) {
+  
+  if (bracketMatches && bracketMatches.length >= 2) {
     // @ts-ignore
-    const bracketContent = bracketMatches[1];
+    const outerBracketContent = bracketMatches[1];
+    const bracketContent = bracketMatches[2];
     // Check if the bracket is at the beginning of the definition or closely following the term
-    const bracketIndex = definition.indexOf(bracketContent);
+    const bracketIndex = definition.indexOf(outerBracketContent);
     const termIndex = definition.indexOf(term) ?? 0;
     const termEndIndex = termIndex + term.length;
     if (bracketIndex - termEndIndex > leewayAfterTerm) {

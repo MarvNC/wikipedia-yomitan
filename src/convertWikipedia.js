@@ -6,14 +6,16 @@ import { Dictionary, TermEntry } from 'yomichan-dict-builder';
 import { parseLine } from './parseLine.js';
 import { languagesAllowed } from './constants.js';
 
-import { version } from '../package.json';
-
 const linkCharacter = '⧉';
-const outputZipName = (lang) => `${lang} Wikipedia (v${version}).zip`;
+const outputZipName = (lang, version) => `${lang} Wikipedia (v${version}).zip`;
 const shortAbstractFile = (lang) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
 (async () => {
+  const version = await getVersion();
+
+  console.log(`Using version ${version}`);
+
   const { lang, date } = readArgs();
   console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
 
@@ -178,4 +180,10 @@ function readArgs() {
     throw new Error(`Date ${dateInput} is not valid. Format: YYYY-MM-DD`);
   }
   return { lang, date: dateInput };
+}
+
+function getVersion() {
+  const packageJsonPath = path.join(process.cwd(), 'package.json');
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+  return packageJson.version;
 }

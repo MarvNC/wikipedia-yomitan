@@ -18,7 +18,11 @@ for lang in "${langs[@]}"
 do
   echo "Running downloadDump.sh with $lang and $dateFile"
   ./scripts/downloadDump.sh "$lang" "$dateFile"
-  # Run node src/convertWikipedia.js with <lang> <date_val>
+done
+
+# Run node src/convertWikipedia.js with <lang> <date_val> for each lang
+for lang in "${langs[@]}"
+do
   echo "Running convertWikipedia.js with $lang and $date_val"
   node src/convertWikipedia.js "$lang" "$date_val"
 done

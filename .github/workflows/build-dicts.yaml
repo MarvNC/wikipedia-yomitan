@@ -1,0 +1,32 @@
+name: Build and Release Dictionaries on Tag
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up node environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: ./scripts/buildAll.sh
+
+      - name: Create Release With gh CLI and Upload ./dist/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+        run: |
+          gh release create "$tag" ./dist/*.zip --notes-from-tag

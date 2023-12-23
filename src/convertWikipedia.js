@@ -7,6 +7,8 @@ import { parseLine } from './parseLine.js';
 import { languagesAllowed } from './constants.js';
 
 const linkCharacter = '⧉';
+const exportDirectory = './dist';
+
 /**
  * 
  * @param {string} lang 
@@ -64,7 +66,7 @@ div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
     attribution: `https://${lang.toLowerCase()}.wikipedia.org/`,
   });
 
-  await dict.export('./');
+  await dict.export(exportDirectory);
   console.log(`Exported to ${outputZipName(lang, date, version)}`);
 })().catch((e) => {
   console.error(e);

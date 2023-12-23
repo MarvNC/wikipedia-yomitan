@@ -15,10 +15,12 @@ more Yomitan dictionaries and tools, see
 
 ## Download
 
-**2023-12-23 Version 1.2**: Improved parsing of more readings for Japanese.
+**2023-12-23 Version 1.2**: Improved parsing of more readings for the JA
+Wikipedia release.
+
 **2023-12-21 Version 1.1**: Updated script for better parsing of readings.
 
-- **[Download JA Wikipedia for Yomitan](https://drive.google.com/open?id=14WEMNY3OhUclvQeKu1DylpMo5USmsnX3&usp=drive_fs)**
+- **[Download JA Wikipedia for Yomitan](https://drive.google.com/file/d/1BZ7vhkwN5eEWVCNU6yVRZq8djsHH0VMj/view?usp=drive_link)**
   (~1.2M entries)
 - **[Download ZH Wikipedia for Yomitan](https://drive.google.com/open?id=14ZECT8FVl0KjxV3JPhzgdmIV8GEgx5ht&usp=drive_fs)**
   (~1.2M entries)

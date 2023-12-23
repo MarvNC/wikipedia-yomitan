@@ -6,8 +6,10 @@ import { Dictionary, TermEntry } from 'yomichan-dict-builder';
 import { parseLine } from './parseLine.js';
 import { languagesAllowed } from './constants.js';
 
+import { version } from '../package.json';
+
 const linkCharacter = '⧉';
-const outputZipName = (lang) => `${lang} Wikipedia (v1.1).zip`;
+const outputZipName = (lang) => `${lang} Wikipedia (v${version}).zip`;
 const shortAbstractFile = (lang) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
@@ -39,7 +41,7 @@ const shortAbstractFile = (lang) =>
   console.log(`Processed ${processedLines} lines, exporting...`);
 
   await dict.setIndex({
-    title: `${lang} Wikipedia [${date}]`,
+    title: `${lang} Wikipedia [${date}] (v${version})`,
     revision: `wikipedia_${new Date().toISOString()}`,
     format: 3,
     url: 'https://github.com/MarvNC/wikipedia-yomitan',

@@ -1,4 +1,4 @@
-const leewayAfterTerm = 10;
+const leewayAfterTerm = 2;
 
 /**
  * @param {string} definition

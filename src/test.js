@@ -60,6 +60,12 @@ const testCases = [
         expectedReading:
           'こうえきざいだんほうじんふっこうかいぬまづちゅうおうびょういん',
       },
+      {
+        line: `<http://ja.dbpedia.org/resource/Hagenuk_MT-2000> <http://www.w3.org/2000/01/rdf-schema#comment> "Hagenuk MT-2000は1994年に発売された携帯電話である。この端末はデンマークStøvringにあるHagenukの開発センターで設計・製造された。この端末は前身である1992年のHagenuk MT-900とともに (en) の機能を導入した最初期の携帯電話製品の一つである。また、MT-2000は従来の外付けアンテナではなく内蔵アンテナを組み込んだ世界初の製品でもある。さらに、Hagenuk MT-2000はテトリス系のゲームを組み込んだ世界初の携帯電話でもある。"@ja .`,
+        term: 'Hagenuk_MT-2000',
+        expectedReading:
+          '',
+      },
     ],
   },
   {

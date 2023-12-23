@@ -60,6 +60,31 @@ const testCases = [
         expectedReading:
           'こうえきざいだんほうじんふっこうかいぬまづちゅうおうびょういん',
       },
+      {
+        line: `<http://ja.dbpedia.org/resource/Hagenuk_MT-2000> <http://www.w3.org/2000/01/rdf-schema#comment> "Hagenuk MT-2000は1994年に発売された携帯電話である。この端末はデンマークStøvringにあるHagenukの開発センターで設計・製造された。この端末は前身である1992年のHagenuk MT-900とともに (en) の機能を導入した最初期の携帯電話製品の一つである。また、MT-2000は従来の外付けアンテナではなく内蔵アンテナを組み込んだ世界初の製品でもある。さらに、Hagenuk MT-2000はテトリス系のゲームを組み込んだ世界初の携帯電話でもある。"@ja .`,
+        term: 'Hagenuk MT-2000',
+        expectedReading: '',
+      },
+      {
+        line: `<http://ja.dbpedia.org/resource/Moke(s)> <http://www.w3.org/2000/01/rdf-schema#comment> "moke(s)（モークス）は、町田直隆（ex BUNGEE JUMP FESTIVAL/WORLD JUNK）の呼びかけによりスタートした3ピースバンド。2014年より活動開始。 立ち上げメンバーだったドラム岡山健二（ex andymori）の離脱に伴い、小寺良太（ex 椿屋四重奏）を迎え、町田直隆(Vocal/Guitar)/海北大輔(Bass)/小寺良太(Drums)の現在の布陣になる。レーベルはLow-Fi Records。　"@ja .`,
+        term: 'Moke(s)',
+        expectedReading: 'モークス',
+      },
+      {
+        line: `<http://ja.dbpedia.org/resource/S(o)un(d)beams> <http://www.w3.org/2000/01/rdf-schema#comment> "『s(o)un(d)beams』（サウンドビームス）は、Salyuのソロプロジェクト「salyu × salyu」の1枚目のアルバム。"@ja .`,
+        term: 'S(o)un(d)beams',
+        expectedReading: 'サウンドビームス',
+      },
+      {
+        line: `<http://ja.dbpedia.org/resource/OuterCurve_Foundation> <http://www.w3.org/2000/01/rdf-schema#comment> "OuterCurve Foundationとは501(c)(6)非営利法人でマイクロソフトが設立したが後に分離された。「ソフトウェア企業とオープンソースコミュニティ間相互の理解とコードのやり取りを可能にする」ことを目標としている。2009年9月10日にマイクロソフトの社員と系列企業が主導してCodePlex Foundationとして設立された。2010年9月にOuterCurve Foundationに法人名を変更し、11月に定款を変更し委員会を拡大した。手がけるソフトウェアプロジェクトの多くが.NET Frameworkに対応するものである。"@ja .`,
+        term: 'OuterCurve Foundation',
+        expectedReading: '',
+      },
+      {
+        line: `<http://ja.dbpedia.org/resource/スピン構造> <http://www.w3.org/2000/01/rdf-schema#comment> "微分幾何学において、向き付け可能リーマン多様体 (M, g) 上のスピン構造（スピンこうぞう、英: spin structure）は、付随するの定義を可能にし、微分幾何学におけるスピノルの概念を生じる。 数理物理学、特に場の量子論へ広く応用され、電荷を持たないフェルミオンに関する任意の理論の定義にスピン構造は必須である。純粋数学的にも、微分幾何学や代数的位相幾何学、K-理論などに於いてスピン構造は興味の対象である。スピン構造はに対する基礎付けを成す。"@ja .`,
+        term: 'スピン構造',
+        expectedReading: 'スピンこうぞう',
+      }
     ],
   },
   {

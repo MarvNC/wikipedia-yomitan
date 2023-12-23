@@ -1,4 +1,4 @@
-const leewayAfterTerm = 10;
+const leewayAfterTerm = 2;
 
 /**
  * @param {string} definition
@@ -6,23 +6,31 @@ const leewayAfterTerm = 10;
  * @returns {string}
  */
 function getReadingFromDefinition(definition, term) {
+  const normalizeText = (text) => text.replace(/ /g, '').toLowerCase();
   // Remove spaces from definition and term
-  definition = definition.replace(/ /g, '');
-  term = term.replace(/ /g, '');
-  const bracketRegex = /[(（]([^)）]*)/g;
-  const bracketMatches = bracketRegex.exec(definition);
-  // @ts-ignore
-  if (bracketMatches?.length >= 1) {
-    // @ts-ignore
-    const bracketContent = bracketMatches[1];
-    // Check if the bracket is at the beginning of the definition or closely following the term
-    const bracketIndex = definition.indexOf(bracketContent);
-    const termIndex = definition.indexOf(term) ?? 0;
-    const termEndIndex = termIndex + term.length;
-    if (bracketIndex - termEndIndex > leewayAfterTerm) {
-      return '';
+  definition = normalizeText(definition);
+  term = normalizeText(term);
+  const bracketRegex = /([(（]([^)）]*)[)）])/g;
+  const bracketMatches = definition.matchAll(bracketRegex) ?? [];
+
+  for (const matchArr of bracketMatches) {
+    if (matchArr && matchArr.length >= 3) {
+      // @ts-ignore
+      const outerBracketContent = matchArr[1];
+      const bracketContent = matchArr[2];
+      const bracketIndex = definition.indexOf(outerBracketContent);
+      const termIndex = definition.indexOf(term) ?? 0;
+      const termEndIndex = termIndex + term.length;
+      // If the bracket is not at the beginning of the definition or closely following the term, ignore it
+      if (bracketIndex - termEndIndex > leewayAfterTerm) {
+        continue;
+      }
+      // If the bracket is within the term or before the term, ignore it
+      if (bracketIndex < termEndIndex) {
+        continue;
+      }
+      return parseReadingFromBrackets(bracketContent, term);
     }
-    return parseReadingFromBrackets(bracketContent, term);
   }
   return '';
 }

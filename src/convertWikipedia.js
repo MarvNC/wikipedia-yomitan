@@ -7,11 +7,22 @@ import { parseLine } from './parseLine.js';
 import { languagesAllowed } from './constants.js';
 
 const linkCharacter = '⧉';
-const outputZipName = (lang) => `${lang} Wikipedia (v1.1).zip`;
+/**
+ * 
+ * @param {string} lang 
+ * @param {string} date 
+ * @param {string} version 
+ * @returns 
+ */
+const outputZipName = (lang, date, version) => `${lang} Wikipedia [${date}] (v${version}).zip`;
 const shortAbstractFile = (lang) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
 (async () => {
+  const version = await getVersion();
+
+  console.log(`Using version ${version}`);
+
   const { lang, date } = readArgs();
   console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
 
@@ -36,10 +47,10 @@ const shortAbstractFile = (lang) =>
     }
   }
 
-  console.log(`Processed ${processedLines} lines, exporting...`);
+  console.log(`Processed ${processedLines} lines, exporting zip...`);
 
   await dict.setIndex({
-    title: `${lang} Wikipedia [${date}]`,
+    title: `${lang} Wikipedia [${date}] (v${version})`,
     revision: `wikipedia_${new Date().toISOString()}`,
     format: 3,
     url: 'https://github.com/MarvNC/wikipedia-yomitan',
@@ -54,7 +65,7 @@ div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
   });
 
   await dict.export('./');
-  console.log(`Exported to ${outputZipName(lang)}`);
+  console.log(`Exported to ${outputZipName(lang, date, version)}`);
 })().catch((e) => {
   console.error(e);
 });
@@ -176,4 +187,10 @@ function readArgs() {
     throw new Error(`Date ${dateInput} is not valid. Format: YYYY-MM-DD`);
   }
   return { lang, date: dateInput };
+}
+
+function getVersion() {
+  const packageJsonPath = path.join(process.cwd(), 'package.json');
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+  return packageJson.version;
 }

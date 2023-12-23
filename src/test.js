@@ -63,8 +63,12 @@ const testCases = [
       {
         line: `<http://ja.dbpedia.org/resource/Hagenuk_MT-2000> <http://www.w3.org/2000/01/rdf-schema#comment> "Hagenuk MT-2000は1994年に発売された携帯電話である。この端末はデンマークStøvringにあるHagenukの開発センターで設計・製造された。この端末は前身である1992年のHagenuk MT-900とともに (en) の機能を導入した最初期の携帯電話製品の一つである。また、MT-2000は従来の外付けアンテナではなく内蔵アンテナを組み込んだ世界初の製品でもある。さらに、Hagenuk MT-2000はテトリス系のゲームを組み込んだ世界初の携帯電話でもある。"@ja .`,
         term: 'Hagenuk MT-2000',
-        expectedReading:
-          '',
+        expectedReading: '',
+      },
+      {
+        line: `<http://ja.dbpedia.org/resource/Moke(s)> <http://www.w3.org/2000/01/rdf-schema#comment> "moke(s)（モークス）は、町田直隆（ex BUNGEE JUMP FESTIVAL/WORLD JUNK）の呼びかけによりスタートした3ピースバンド。2014年より活動開始。 立ち上げメンバーだったドラム岡山健二（ex andymori）の離脱に伴い、小寺良太（ex 椿屋四重奏）を迎え、町田直隆(Vocal/Guitar)/海北大輔(Bass)/小寺良太(Drums)の現在の布陣になる。レーベルはLow-Fi Records。　"@ja .`,
+        term: 'Moke(s)',
+        expectedReading: 'モークス',
       },
     ],
   },

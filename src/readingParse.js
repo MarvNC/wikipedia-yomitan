@@ -48,14 +48,14 @@ function parseReadingFromBrackets(bracketContent, term) {
 
   const readings = bracketContent.split(commaRegex);
 
-  const noKanji = readings.filter((reading) => !kanjiRegex.test(reading));
+  const noKanji = readings.filter((reading) => !reading.match(kanjiRegex));
 
   const latinRegex = /[a-zA-Z]/g;
-  const termHasLatin = latinRegex.test(term);
+  const termHasLatin = term.match(latinRegex);
 
   const readingCandidates = termHasLatin
     ? noKanji
-    : noKanji.filter((reading) => !latinRegex.test(reading));
+    : noKanji.filter((reading) => !reading.match(latinRegex));
 
   if (readingCandidates.length > 0) {
     let reading = readingCandidates[0];

@@ -8,13 +8,14 @@ import { languagesAllowed } from './constants.js';
 
 const linkCharacter = '⧉';
 /**
- * 
- * @param {string} lang 
- * @param {string} date 
- * @param {string} version 
- * @returns 
+ *
+ * @param {string} lang
+ * @param {string} date
+ * @param {string} version
+ * @returns
  */
-const outputZipName = (lang, date, version) => `${lang} Wikipedia [${date}] (v${version}).zip`;
+const outputZipName = (lang, date, version) =>
+  `${lang} Wikipedia [${date}] (v${version}).zip`;
 const shortAbstractFile = (lang) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
@@ -35,7 +36,7 @@ const shortAbstractFile = (lang) =>
 
   const dict = new Dictionary({
     // @ts-ignore
-    fileName: outputZipName(lang),
+    fileName: outputZipName(lang, date, version),
   });
 
   let processedLines = 0;
@@ -79,7 +80,7 @@ div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
 function processLine(line, dict, lang) {
   const { term, termSlug, termSpecifier, reading, definition } = parseLine(
     line,
-    lang
+    lang,
   );
 
   const termEntry = new TermEntry(term);
@@ -131,8 +132,8 @@ function processLine(line, dict, lang) {
     lang === languagesAllowed.ja
       ? '続きを読む'
       : lang === languagesAllowed.zh
-      ? '查看更多'
-      : 'Read more';
+        ? '查看更多'
+        : 'Read more';
   /**
    * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContentNode}
    */
@@ -174,8 +175,8 @@ function readArgs() {
   if (!languagesAllowed[langInput.toLowerCase()]) {
     throw new Error(
       `Language ${langInput} is not allowed. Allowed languages: ${Object.keys(
-        languagesAllowed
-      ).join(', ')}`
+        languagesAllowed,
+      ).join(', ')}`,
     );
   }
 

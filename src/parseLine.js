@@ -22,7 +22,7 @@ function parseLine(line, lang) {
   // remove last 6 characters
   line = line.slice(0, -6);
   const [resource, definition] = line.split(
-    '> <http://www.w3.org/2000/01/rdf-schema#comment> "'
+    '> <http://www.w3.org/2000/01/rdf-schema#comment> "',
   );
   let termSlug = resource.split('.dbpedia.org/resource/').pop();
   if (!termSlug) {

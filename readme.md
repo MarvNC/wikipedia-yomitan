@@ -37,10 +37,9 @@ div.gloss-sc-div[data-sc-wikipedia='term-specifier'] {
 <!-- prettier-ignore -->
 > [!CAUTION]
 > Due to the size of the dictionaries, there are currently issues
-> with being unable to delete the dictionaries from Yomitan. This will be
-> [fixed in the next stable release](https://github.com/themoeway/yomitan/pull/382),
-> but in the meantime you will have to delete it by clicking the 'Delete All'
-> button.
+> with being unable to delete the dictionaries from Yomichan. The issue is
+> [fixed in Yomitan 23.12.29](https://github.com/themoeway/yomitan/pull/382),
+> so I recommend installing Yomitan if you haven't already.
 
 <!-- prettier-ignore -->
 > [!IMPORTANT] 

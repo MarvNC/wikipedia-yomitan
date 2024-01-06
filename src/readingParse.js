@@ -53,9 +53,16 @@ function parseReadingFromBrackets(bracketContent, term) {
   const latinRegex = /[a-zA-Z]/g;
   const termHasLatin = term.match(latinRegex);
 
-  const readingCandidates = termHasLatin
+  let readingCandidates = termHasLatin
     ? noKanji
     : noKanji.filter((reading) => !reading.match(latinRegex));
+
+  const numberRegex = /\d/g;
+  const termHasNumber = term.match(numberRegex);
+
+  readingCandidates = termHasNumber
+    ? readingCandidates
+    : readingCandidates.filter((reading) => !reading.match(numberRegex));
 
   if (readingCandidates.length > 0) {
     let reading = readingCandidates[0];

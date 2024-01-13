@@ -22,7 +22,7 @@ more Yomitan dictionaries and tools, see
   (~1.2M entries)
   - **Last updated 2023-12-21: v1.1.0**
 
-# Usage
+## Usage
 
 Recommended custom CSS to add to the `Configure custom CSS…` section of the
 options page:

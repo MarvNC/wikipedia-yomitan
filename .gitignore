@@ -1,5 +1,6 @@
 *.ttl
 *.bzip2
+*.bz2
 *.zip
 
 # Created by https://www.toptal.com/developers/gitignore/api/node

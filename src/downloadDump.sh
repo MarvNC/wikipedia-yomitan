@@ -6,7 +6,7 @@ if [ $# -ne 2 ]; then
   exit 1
 fi
 
-URL="https://databus.dbpedia.org/dbpedia/text/short-abstracts/$2/short-abstracts_lang=$1.ttl.bzip2"
+URL="https://databus.dbpedia.org/dbpedia/text/short-abstracts/$2/short-abstracts_lang=$1.ttl.bz2"
 ARCHIVE="short-abstracts_lang=$1.ttl.bzip2"
 FILE="short-abstracts_lang=$1.ttl"
 

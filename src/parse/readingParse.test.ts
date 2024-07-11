@@ -2,10 +2,10 @@ import test from 'ava';
 
 import { parseLine } from './parseLine.js';
 
-import { languagesAllowed } from '../constants.js';
+import { languages } from '../constants.js';
 
 const testCases: {
-  lang: (typeof languagesAllowed)[keyof typeof languagesAllowed];
+  lang: (typeof languages)[keyof typeof languages];
   cases: {
     line: string;
     term: string;
@@ -13,7 +13,7 @@ const testCases: {
   }[];
 }[] = [
   {
-    lang: languagesAllowed.ja,
+    lang: languages.ja,
     cases: [
       {
         line: `<http://ja.dbpedia.org/resource/みぞおち> <http://www.w3.org/2000/01/rdf-schema#comment> "みぞおちとは、人間の腹の上方中央にある窪んだ部位のこと。鳩尾（きゅうび、みぞおち）、水月（すいげつ）、心窩（しんか、しんわ）とも呼ばれる。みぞおちの内部背中側には腹腔神経叢（ふっくうしんけいそう、英：celiac plexus, solar plexus. 独:solarplexus）という (en:nerve plexus) がある。"@ja .`,
@@ -95,7 +95,7 @@ const testCases: {
     ],
   },
   {
-    lang: languagesAllowed.zh,
+    lang: languages.zh,
     cases: [
       {
         line: `<http://zh.dbpedia.org/resource/!HERO> <http://www.w3.org/2000/01/rdf-schema#comment> "《!HERO》（直译“！英雄”）是一部有关耶稣的。这部歌剧基于“如果耶稣出生在宾夕法尼亚州伯利恒将会怎样？”这个问题。2003年首次巡演后，《!HERO》也通过DVD和CD发行。此歌剧也被写成一部小说三部曲和一系列漫画。"@zh .`,

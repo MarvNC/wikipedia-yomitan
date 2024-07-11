@@ -4,7 +4,7 @@ import readline from 'readline';
 import { Dictionary, TermEntry } from 'yomichan-dict-builder';
 
 import { parseLine } from './parse/parseLine';
-import { languagesAllowed } from './constants';
+import { languages } from './constants';
 import { getVersion } from './util/getVersion';
 import type {
   StructuredContent,
@@ -116,9 +116,9 @@ function processLine(line: string, dict: Dictionary, lang: string) {
   // Read more
   const articleLink = `https://${lang.toLowerCase()}.wikipedia.org/wiki/${termSlug}`;
   const readTheRest =
-    lang === languagesAllowed.ja
+    lang === languages.ja
       ? '続きを読む'
-      : lang === languagesAllowed.zh
+      : lang === languages.zh
       ? '查看更多'
       : 'Read more';
   const linkSC: StructuredContentNode = {
@@ -155,17 +155,17 @@ function processLine(line: string, dict: Dictionary, lang: string) {
 function readArgs() {
   // Read arguments: node convertWikipedia.js [language] [date of dump]
   const langInput =
-    process.argv[2].toLowerCase() as keyof typeof languagesAllowed;
+    process.argv[2].toLowerCase() as keyof typeof languages;
   // Assert language is valid
-  if (!languagesAllowed[langInput]) {
+  if (!languages[langInput]) {
     throw new Error(
       `Language ${langInput} is not allowed. Allowed languages: ${Object.keys(
-        languagesAllowed
+        languages
       ).join(', ')}`
     );
   }
 
-  const lang = languagesAllowed[langInput];
+  const lang = languages[langInput];
 
   const dateInput = process.argv[3];
   // Assert date is valid in format YYYY-MM-DD

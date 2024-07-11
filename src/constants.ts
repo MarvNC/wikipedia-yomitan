@@ -1,4 +1,4 @@
-export const languagesAllowed = {
+export const languages = {
   ja: 'JA',
   zh: 'ZH',
 };

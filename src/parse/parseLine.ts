@@ -1,5 +1,5 @@
 import { pinyin } from 'pinyin-pro';
-import { languagesAllowed } from '../constants';
+import { languages } from '../constants';
 import { getReadingFromDefinition } from './readingParse';
 
 type ParsedLine = {
@@ -13,12 +13,12 @@ type ParsedLine = {
 /**
  *
  * @param {string} line
- * @param {typeof languagesAllowed[keyof typeof languagesAllowed]} lang
+ * @param {typeof languages[keyof typeof languages]} lang
  * @returns {ParsedLine}
  */
 function parseLine(
   line: string,
-  lang: (typeof languagesAllowed)[keyof typeof languagesAllowed]
+  lang: (typeof languages)[keyof typeof languages]
 ): ParsedLine {
   // remove last 6 characters
   line = line.slice(0, -6);
@@ -41,9 +41,9 @@ function parseLine(
   term = term.replace(/_/g, ' ');
 
   let reading = '';
-  if (lang === languagesAllowed.ja) {
+  if (lang === languages.ja) {
     reading = getReadingFromDefinition(definition, term);
-  } else if (lang === languagesAllowed.zh) {
+  } else if (lang === languages.zh) {
     reading = pinyin(term, { mode: 'surname' });
     reading = reading.replace(/ /g, '');
   }

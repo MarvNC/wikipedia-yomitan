@@ -10,6 +10,11 @@
   },
   "type": "module",
   "devDependencies": {
-    "ava": "^6.0.1"
+    "ava": "^6.0.1",
+    "@types/bun": "latest"
+  },
+  "name": "wikipedia-yomitan",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }

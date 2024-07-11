@@ -1,6 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-import readline from 'readline';
+import { file } from 'bun';
 import { Dictionary, TermEntry } from 'yomichan-dict-builder';
 
 import { parseLine } from './parse/parseLine';
@@ -27,11 +25,9 @@ const shortAbstractFile = (lang: string) =>
   console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
 
   const filePath = shortAbstractFile(lang);
-  const fileStream = fs.createReadStream(filePath);
-  const lineReader = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
+  const fileHandle = file(filePath);
+  const fileReader = fileHandle.stream();
+  const lineReader = fileReader.getReader();
 
   const dict = new Dictionary({
     // @ts-ignore
@@ -39,11 +35,24 @@ const shortAbstractFile = (lang: string) =>
   });
 
   let processedLines = 0;
-  for await (const line of lineReader) {
-    await processLine(line, dict, lang);
-    processedLines++;
-    if (processedLines % 1000 === 0) {
-      console.log(`Processed ${processedLines} lines`);
+  let buffer = '';
+
+  while (true) {
+    const { done, value } = await lineReader.read();
+    if (done) break;
+
+    buffer += new TextDecoder().decode(value);
+    let lineEnd;
+
+    while ((lineEnd = buffer.indexOf('\n')) !== -1) {
+      const line = buffer.slice(0, lineEnd);
+      await processLine(line.trim(), dict, lang);
+      buffer = buffer.slice(lineEnd + 1);
+      processedLines++;
+
+      if (processedLines % 1000 === 0) {
+        console.log(`Processed ${processedLines} lines`);
+      }
     }
   }
 
@@ -154,8 +163,7 @@ function processLine(line: string, dict: Dictionary, lang: string) {
 
 function readArgs() {
   // Read arguments: node convertWikipedia.js [language] [date of dump]
-  const langInput =
-    process.argv[2].toLowerCase() as keyof typeof languages;
+  const langInput = process.argv[2].toLowerCase() as keyof typeof languages;
   // Assert language is valid
   if (!languages[langInput]) {
     throw new Error(

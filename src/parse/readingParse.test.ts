@@ -4,22 +4,14 @@ import { parseLine } from './parseLine.js';
 
 import { languagesAllowed } from '../constants.js';
 
-/**
- * @typedef {Object} TestCase
- * @property {string} line
- * @property {string} term
- * @property {string} expectedReading
- */
-/**
- * @typedef {Object} TestCases
- * @property {typeof languagesAllowed[keyof typeof languagesAllowed]} lang
- * @property {TestCase[]} cases
- */
-
-/**
- * @type {TestCases[]}
- */
-const testCases = [
+const testCases: {
+  lang: (typeof languagesAllowed)[keyof typeof languagesAllowed];
+  cases: {
+    line: string;
+    term: string;
+    expectedReading: string;
+  }[];
+}[] = [
   {
     lang: languagesAllowed.ja,
     cases: [

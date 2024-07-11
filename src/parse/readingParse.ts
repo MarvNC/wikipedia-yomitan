@@ -1,12 +1,7 @@
 const leewayAfterTerm = 2;
 
-/**
- * @param {string} definition
- * @param {string} term
- * @returns {string}
- */
-function getReadingFromDefinition(definition, term) {
-  const normalizeText = (text) => text.replace(/ /g, '').toLowerCase();
+function getReadingFromDefinition(definition: string, term: string): string {
+  const normalizeText = (text: string) => text.replace(/ /g, '').toLowerCase();
   // Remove spaces from definition and term
   definition = normalizeText(definition);
   term = normalizeText(term);
@@ -15,7 +10,6 @@ function getReadingFromDefinition(definition, term) {
 
   for (const matchArr of bracketMatches) {
     if (matchArr && matchArr.length >= 3) {
-      // @ts-ignore
       const outerBracketContent = matchArr[1];
       const bracketContent = matchArr[2];
       const bracketIndex = definition.indexOf(outerBracketContent);
@@ -35,12 +29,10 @@ function getReadingFromDefinition(definition, term) {
   return '';
 }
 
-/**
- * @param {string} bracketContent
- * @param {string} term
- * @returns {string}
- */
-function parseReadingFromBrackets(bracketContent, term) {
+function parseReadingFromBrackets(
+  bracketContent: string,
+  term: string
+): string {
   if (!bracketContent) return '';
 
   const commaRegex = /,|、/g;

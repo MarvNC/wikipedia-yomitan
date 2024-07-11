@@ -1,16 +1,14 @@
 import { pinyin } from 'pinyin-pro';
-import { languagesAllowed } from './constants.js';
-import { getReadingFromDefinition } from './readingParse.js';
+import { languagesAllowed } from '../constants';
+import { getReadingFromDefinition } from './readingParse';
 
-/**
- * @typedef {Object} ParsedLine
- * @property {string} term
- * @property {string} termSlug
- * @property {string} termSpecifier
- * @property {string} reading
- * @property {string} definition
- *
- */
+type ParsedLine = {
+  term: string;
+  termSlug: string;
+  termSpecifier: string;
+  reading: string;
+  definition: string;
+};
 
 /**
  *
@@ -18,11 +16,14 @@ import { getReadingFromDefinition } from './readingParse.js';
  * @param {typeof languagesAllowed[keyof typeof languagesAllowed]} lang
  * @returns {ParsedLine}
  */
-function parseLine(line, lang) {
+function parseLine(
+  line: string,
+  lang: (typeof languagesAllowed)[keyof typeof languagesAllowed]
+): ParsedLine {
   // remove last 6 characters
   line = line.slice(0, -6);
   const [resource, definition] = line.split(
-    '> <http://www.w3.org/2000/01/rdf-schema#comment> "',
+    '> <http://www.w3.org/2000/01/rdf-schema#comment> "'
   );
   let termSlug = resource.split('.dbpedia.org/resource/').pop();
   if (!termSlug) {

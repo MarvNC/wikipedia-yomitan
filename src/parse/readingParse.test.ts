@@ -1,4 +1,4 @@
-import test from 'ava';
+import { test, expect } from 'bun:test';
 
 import { parseLine } from './parseLine.js';
 
@@ -113,9 +113,9 @@ const testCases: {
 
 for (const langTestCases of testCases) {
   for (const testCase of langTestCases.cases) {
-    test(`parseLine ${langTestCases.lang}: ${testCase.term}`, (t) => {
+    test(`parseLine ${langTestCases.lang}: ${testCase.term}`, () => {
       const { reading } = parseLine(testCase.line, langTestCases.lang);
-      t.is(reading, testCase.expectedReading);
+      expect(reading).toBe(testCase.expectedReading);
     });
   }
 }

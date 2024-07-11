@@ -3,25 +3,23 @@ import path from 'path';
 import readline from 'readline';
 import { Dictionary, TermEntry } from 'yomichan-dict-builder';
 
-import { parseLine } from './parseLine.js';
-import { languagesAllowed } from './constants.js';
-import { getVersion } from './util/getVersion.js';
+import { parseLine } from './parse/parseLine';
+import { languagesAllowed } from './constants';
+import { getVersion } from './util/getVersion';
+import type {
+  StructuredContent,
+  StructuredContentNode,
+} from 'yomichan-dict-builder/dist/types/yomitan/termbank';
 
 const linkCharacter = '⧉';
-/**
- *
- * @param {string} lang
- * @param {string} date
- * @param {string} version
- * @returns
- */
-const outputZipName = (lang, date, version) =>
+
+const outputZipName = (lang: string, date: string, version: string) =>
   `${lang} Wikipedia [${date}] (v${version}).zip`;
-const shortAbstractFile = (lang) =>
+const shortAbstractFile = (lang: string) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
 (async () => {
-  const version = await getVersion();
+  const version = getVersion();
 
   console.log(`Using version ${version}`);
 
@@ -74,11 +72,8 @@ div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
 
 /**
  * Reads a line and adds that term entry to the dictionary
- * @param {string} line
- * @param {Dictionary} dict
- * @param {string} lang
  */
-function processLine(line, dict, lang) {
+function processLine(line: string, dict: Dictionary, lang: string) {
   const { term, termSlug, termSpecifier, reading, definition } = parseLine(
     line,
     lang
@@ -87,17 +82,11 @@ function processLine(line, dict, lang) {
   const termEntry = new TermEntry(term);
   termEntry.setReading(reading);
 
-  /**
-   * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContent[]}
-   */
-  const structuredContentList = [];
+  const structuredContentList: StructuredContent[] = [];
 
   // Add term specifier heading if exists
   if (termSpecifier) {
-    /**
-     * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContentNode}
-     */
-    const specifierSCNode = {
+    const specifierSCNode: StructuredContentNode = {
       tag: 'div',
       content: `«${termSpecifier}»`,
       data: {
@@ -112,10 +101,7 @@ function processLine(line, dict, lang) {
   }
 
   const definitionStrings = definition.split('\\n').map((line) => line.trim());
-  /**
-   * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContentNode}
-   */
-  const definitionUList = {
+  const definitionUList: StructuredContentNode = {
     tag: 'ul',
     content: definitionStrings.map((definitionString) => ({
       tag: 'li',
@@ -135,10 +121,7 @@ function processLine(line, dict, lang) {
       : lang === languagesAllowed.zh
       ? '查看更多'
       : 'Read more';
-  /**
-   * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContentNode}
-   */
-  const linkSC = {
+  const linkSC: StructuredContentNode = {
     tag: 'ul',
     content: [
       {
@@ -171,9 +154,10 @@ function processLine(line, dict, lang) {
 
 function readArgs() {
   // Read arguments: node convertWikipedia.js [language] [date of dump]
-  const langInput = process.argv[2];
+  const langInput =
+    process.argv[2].toLowerCase() as keyof typeof languagesAllowed;
   // Assert language is valid
-  if (!languagesAllowed[langInput.toLowerCase()]) {
+  if (!languagesAllowed[langInput]) {
     throw new Error(
       `Language ${langInput} is not allowed. Allowed languages: ${Object.keys(
         languagesAllowed
@@ -181,7 +165,7 @@ function readArgs() {
     );
   }
 
-  const lang = languagesAllowed[langInput.toLowerCase()];
+  const lang = languagesAllowed[langInput];
 
   const dateInput = process.argv[3];
   // Assert date is valid in format YYYY-MM-DD

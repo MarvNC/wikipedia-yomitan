@@ -69,7 +69,7 @@ To download the abstracts for a language, run:
 To build a dictionary, run:
 
 ```sh
-bun run start ja 2022-12-01
+bun run start -l ja -d 2022-12-01
 ```
 
 where `ja` is the language code and `2022.12.01` is the date of the dump (there

@@ -1,5 +1,6 @@
 import { file } from 'bun';
 import { Dictionary, TermEntry } from 'yomichan-dict-builder';
+import { parseArgs } from 'util';
 
 import { parseLine } from './parse/parseLine';
 import { languages } from './constants';
@@ -17,7 +18,7 @@ const shortAbstractFile = (lang: string) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
 (async () => {
-  const version = getVersion();
+  const version = await getVersion();
 
   console.log(`Using version ${version}`);
 
@@ -60,7 +61,7 @@ const shortAbstractFile = (lang: string) =>
 
   await dict.setIndex({
     title: `${lang} Wikipedia [${date}] (v${version})`,
-    revision: `wikipedia_${new Date().toISOString()}`,
+    revision: `wikipedia_${version}`,
     format: 3,
     url: 'https://github.com/MarvNC/wikipedia-yomitan',
     description: `Wikipedia short abstracts from the DBPedia dataset available at https://databus.dbpedia.org/dbpedia/text/short-abstracts.
@@ -162,23 +163,43 @@ function processLine(line: string, dict: Dictionary, lang: string) {
 }
 
 function readArgs() {
-  // Read arguments: node convertWikipedia.js [language] [date of dump]
-  const langInput = process.argv[2].toLowerCase() as keyof typeof languages;
+  const { values } = parseArgs({
+    options: {
+      lang: {
+        type: 'string',
+        short: 'l',
+      },
+      date: {
+        type: 'string',
+        short: 'd',
+      },
+    },
+    strict: true,
+    allowPositionals: false,
+  });
+
+  const langInput = (
+    values.lang as string
+  )?.toLowerCase() as keyof typeof languages;
+  const dateInput = values.date as string;
+
   // Assert language is valid
-  if (!languages[langInput]) {
+  if (!langInput || !languages[langInput]) {
     throw new Error(
-      `Language ${langInput} is not allowed. Allowed languages: ${Object.keys(
+      `Language ${langInput} is not allowed or not provided. Allowed languages: ${Object.keys(
         languages
       ).join(', ')}`
     );
   }
 
-  const lang = languages[langInput];
+  const lang = languages[langInput] as keyof typeof languages;
 
-  const dateInput = process.argv[3];
   // Assert date is valid in format YYYY-MM-DD
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
-    throw new Error(`Date ${dateInput} is not valid. Format: YYYY-MM-DD`);
+  if (!dateInput || !/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
+    throw new Error(
+      `Date ${dateInput} is not valid or not provided. Format: YYYY-MM-DD`
+    );
   }
+
   return { lang, date: dateInput };
 }

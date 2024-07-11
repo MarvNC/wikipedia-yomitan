@@ -2,7 +2,7 @@ import test from 'ava';
 
 import { parseLine } from './parseLine.js';
 
-import { languagesAllowed } from './constants.js';
+import { languagesAllowed } from '../constants.js';
 
 /**
  * @typedef {Object} TestCase

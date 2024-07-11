@@ -5,6 +5,7 @@ import { Dictionary, TermEntry } from 'yomichan-dict-builder';
 
 import { parseLine } from './parseLine.js';
 import { languagesAllowed } from './constants.js';
+import { getVersion } from './util/getVersion.js';
 
 const linkCharacter = '⧉';
 /**
@@ -80,7 +81,7 @@ div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
 function processLine(line, dict, lang) {
   const { term, termSlug, termSpecifier, reading, definition } = parseLine(
     line,
-    lang,
+    lang
   );
 
   const termEntry = new TermEntry(term);
@@ -132,8 +133,8 @@ function processLine(line, dict, lang) {
     lang === languagesAllowed.ja
       ? '続きを読む'
       : lang === languagesAllowed.zh
-        ? '查看更多'
-        : 'Read more';
+      ? '查看更多'
+      : 'Read more';
   /**
    * @type {import('yomichan-dict-builder/dist/types/yomitan/termbank').StructuredContentNode}
    */
@@ -175,8 +176,8 @@ function readArgs() {
   if (!languagesAllowed[langInput.toLowerCase()]) {
     throw new Error(
       `Language ${langInput} is not allowed. Allowed languages: ${Object.keys(
-        languagesAllowed,
-      ).join(', ')}`,
+        languagesAllowed
+      ).join(', ')}`
     );
   }
 
@@ -188,10 +189,4 @@ function readArgs() {
     throw new Error(`Date ${dateInput} is not valid. Format: YYYY-MM-DD`);
   }
   return { lang, date: dateInput };
-}
-
-function getVersion() {
-  const packageJsonPath = path.join(process.cwd(), 'package.json');
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-  return packageJson.version;
 }

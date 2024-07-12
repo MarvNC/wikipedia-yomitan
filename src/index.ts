@@ -27,9 +27,11 @@ const OUT_DIRECTORY = './out';
   if (!all) {
     await processWikipediaDataForLang(version, dev, lang, date);
   } else {
-    for (const lang of LANGUAGE_CODES) {
-      await processWikipediaDataForLang(version, dev, lang, DBPEDIA_DATE);
-    }
+    await Promise.all(
+      LANGUAGE_CODES.map((lang) =>
+        processWikipediaDataForLang(version, dev, lang, DBPEDIA_DATE)
+      )
+    );
   }
 
   process.exit(0);

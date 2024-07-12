@@ -23,7 +23,7 @@ export async function downloadDumps(lang: LanguageCode, date: string) {
 
   // Check if download directory exists
   if (!(await exists(DOWNLOAD_DIR))) {
-    console.log(`Creating download directory ${DOWNLOAD_DIR}`);
+    console.log(`[${lang}]: Creating download directory ${DOWNLOAD_DIR}`);
     await mkdir(DOWNLOAD_DIR);
   }
 
@@ -32,24 +32,24 @@ export async function downloadDumps(lang: LanguageCode, date: string) {
   const archiveExists = await exists(archivePath);
   const fileExists = await exists(filePath);
   console.log(
-    `${lang}: archiveExists=${archiveExists}, fileExists=${fileExists}`
+    `[${lang}]: archiveExists=${archiveExists}, fileExists=${fileExists}`
   );
 
   // Download the archive if neither the file nor archive exists
   if (!fileExists && !archiveExists) {
     const url = URL(lang, date);
-    console.log(`Downloading ${url}`);
+    console.log(`[${lang}]: Downloading ${url}`);
     // await $`wget ${url} -O ${archivePath}`;
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Failed to download ${url}: ${response.statusText}`);
+      throw new Error(`[${lang}]: Failed to download ${url}: ${response.statusText}`);
     }
     await write(archivePath, await response.arrayBuffer());
   }
 
   // Extract the archive if it does not exist
   if (!fileExists) {
-    console.log(`Extracting ${archivePath}`);
+    console.log(`[${lang}]: Extracting ${archivePath}`);
     const extract = inly(archivePath, DOWNLOAD_DIR);
     await new Promise((resolve, reject) => {
       extract.on('error', reject);
@@ -57,7 +57,7 @@ export async function downloadDumps(lang: LanguageCode, date: string) {
     });
   }
 
-  console.log(`Finished downloading and extracting ${lang} dump`);
+  console.log(`[${lang}]: Finished downloading and extracting ${lang} dump`);
 
   return filePath;
 }

@@ -1,12 +1,13 @@
-# Wikipedia for Yomichan/Yomitan
+# Wikipedia for Yomitan
 
 A conversion of the [DBPedia](https://dbpedia.org/) short-abstract dumps of
 [Wikipedia](https://wikipedia.org/) for
-[Yomitan](https://github.com/themoeway/yomitan)/[Yomichan](https://foosoft.net/projects/yomichan/).
-The dictionaries feature most of that language's Wikipedia, with each entry
-containing the abstract and a link to the Wikipedia article. Unfortunately there
-are no dumps of DBPedia after December 2022, so regular updates will not be
-possible until DBPedia starts updating again.
+[Yomitan](https://github.com/themoeway/yomitan) (formerly
+[Yomichan](https://foosoft.net/projects/yomichan/)). The dictionaries feature
+most of that language's Wikipedia, with each entry containing the abstract and a
+link to the Wikipedia article. Unfortunately there are no dumps of DBPedia after
+December 2022, so regular updates will not be possible until DBPedia starts
+updating again.
 
 Built using
 [yomichan-dict-builder](https://github.com/MarvNC/yomichan-dict-builder). For

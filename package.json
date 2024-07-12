@@ -17,13 +17,5 @@
   "name": "wikipedia-yomitan",
   "peerDependencies": {
     "typescript": "^5.0.0"
-  },
-  "ava": {
-    "extensions": {
-      "ts": "module"
-    },
-    "nodeArguments": [
-      "--import=tsimp"
-    ]
   }
 }

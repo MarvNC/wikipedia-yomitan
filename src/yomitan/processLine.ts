@@ -14,31 +14,63 @@ export function processLine(line: string, dict: Dictionary, lang: string) {
     line,
     lang
   );
+  const termEntry = createTermEntry(term, reading);
+  const structuredContentList = createStructuredContentList(
+    termSpecifier,
+    definition,
+    termSlug,
+    lang
+  );
 
+  termEntry.addDetailedDefinition({
+    type: 'structured-content',
+    content: structuredContentList,
+  });
+
+  dict.addTerm(termEntry.build());
+}
+
+// Helper functions
+function createTermEntry(term: string, reading: string): TermEntry {
   const termEntry = new TermEntry(term);
   termEntry.setReading(reading);
+  return termEntry;
+}
 
+function createStructuredContentList(
+  termSpecifier: string | null,
+  definition: string,
+  termSlug: string,
+  lang: string
+): StructuredContent[] {
   const structuredContentList: StructuredContent[] = [];
 
-  // Add term specifier heading if exists
   if (termSpecifier) {
-    const specifierSCNode: StructuredContentNode = {
-      tag: 'div',
-      content: `«${termSpecifier}»`,
-      data: {
-        wikipedia: 'term-specifier',
-      },
-      style: {
-        fontSize: '1.5em',
-        color: '#e5007f',
-      },
-    };
-
-    structuredContentList.push(specifierSCNode);
+    structuredContentList.push(createTermSpecifierNode(termSpecifier));
   }
 
+  structuredContentList.push(createDefinitionNode(definition));
+  structuredContentList.push(createReadMoreNode(termSlug, lang));
+
+  return structuredContentList;
+}
+
+function createTermSpecifierNode(termSpecifier: string): StructuredContentNode {
+  return {
+    tag: 'div',
+    content: `«${termSpecifier}»`,
+    data: {
+      wikipedia: 'term-specifier',
+    },
+    style: {
+      fontSize: '1.5em',
+    },
+  };
+}
+
+function createDefinitionNode(definition: string): StructuredContentNode {
   const definitionStrings = definition.split('\\n').map((line) => line.trim());
-  const definitionUList: StructuredContentNode = {
+  return {
     tag: 'ul',
     content: definitionStrings.map((definitionString) => ({
       tag: 'li',
@@ -48,17 +80,15 @@ export function processLine(line: string, dict: Dictionary, lang: string) {
       wikipedia: 'abstract',
     },
   };
-  structuredContentList.push(definitionUList);
+}
 
-  // Read more
+function createReadMoreNode(
+  termSlug: string,
+  lang: string
+): StructuredContentNode {
   const articleLink = `https://${lang.toLowerCase()}.wikipedia.org/wiki/${termSlug}`;
-  const readTheRest =
-    lang === languages.ja
-      ? '続きを読む'
-      : lang === languages.zh
-      ? '查看更多'
-      : 'Read more';
-  const linkSC: StructuredContentNode = {
+  const readTheRest = getReadMoreText(lang);
+  return {
     tag: 'ul',
     content: [
       {
@@ -79,12 +109,15 @@ export function processLine(line: string, dict: Dictionary, lang: string) {
       listStyleType: `"${linkCharacter}"`,
     },
   };
-  structuredContentList.push(linkSC);
+}
 
-  termEntry.addDetailedDefinition({
-    type: 'structured-content',
-    content: structuredContentList,
-  });
-
-  dict.addTerm(termEntry.build());
+function getReadMoreText(lang: string): string {
+  switch (lang) {
+    case languages.ja:
+      return '続きを読む';
+    case languages.zh:
+      return '查看更多';
+    default:
+      return 'Read more';
+  }
 }

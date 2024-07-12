@@ -1,13 +1,7 @@
 import { file } from 'bun';
-import { Dictionary, TermEntry } from 'yomichan-dict-builder';
+import { Dictionary } from 'yomichan-dict-builder';
 
-import { parseLine } from './parse/parseLine';
-import { languages, linkCharacter } from './constants';
 import { getVersion } from './util/getVersion';
-import type {
-  StructuredContent,
-  StructuredContentNode,
-} from 'yomichan-dict-builder/dist/types/yomitan/termbank';
 
 import * as cliProgress from 'cli-progress';
 import { downloadDumps } from './util/downloadDumps';

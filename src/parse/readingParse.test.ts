@@ -1,27 +1,19 @@
-import test from 'ava';
+import { test, expect } from 'bun:test';
 
 import { parseLine } from './parseLine.js';
 
-import { languagesAllowed } from './constants.js';
+import { LanguageCode } from '../constants.js';
 
-/**
- * @typedef {Object} TestCase
- * @property {string} line
- * @property {string} term
- * @property {string} expectedReading
- */
-/**
- * @typedef {Object} TestCases
- * @property {typeof languagesAllowed[keyof typeof languagesAllowed]} lang
- * @property {TestCase[]} cases
- */
-
-/**
- * @type {TestCases[]}
- */
-const testCases = [
+const testCases: {
+  lang: LanguageCode;
+  cases: {
+    line: string;
+    term: string;
+    expectedReading: string;
+  }[];
+}[] = [
   {
-    lang: languagesAllowed.ja,
+    lang: 'ja',
     cases: [
       {
         line: `<http://ja.dbpedia.org/resource/みぞおち> <http://www.w3.org/2000/01/rdf-schema#comment> "みぞおちとは、人間の腹の上方中央にある窪んだ部位のこと。鳩尾（きゅうび、みぞおち）、水月（すいげつ）、心窩（しんか、しんわ）とも呼ばれる。みぞおちの内部背中側には腹腔神経叢（ふっくうしんけいそう、英：celiac plexus, solar plexus. 独:solarplexus）という (en:nerve plexus) がある。"@ja .`,
@@ -103,7 +95,7 @@ const testCases = [
     ],
   },
   {
-    lang: languagesAllowed.zh,
+    lang: 'zh',
     cases: [
       {
         line: `<http://zh.dbpedia.org/resource/!HERO> <http://www.w3.org/2000/01/rdf-schema#comment> "《!HERO》（直译“！英雄”）是一部有关耶稣的。这部歌剧基于“如果耶稣出生在宾夕法尼亚州伯利恒将会怎样？”这个问题。2003年首次巡演后，《!HERO》也通过DVD和CD发行。此歌剧也被写成一部小说三部曲和一系列漫画。"@zh .`,
@@ -121,9 +113,9 @@ const testCases = [
 
 for (const langTestCases of testCases) {
   for (const testCase of langTestCases.cases) {
-    test(`parseLine ${langTestCases.lang}: ${testCase.term}`, (t) => {
+    test(`parseLine ${langTestCases.lang}: ${testCase.term}`, () => {
       const { reading } = parseLine(testCase.line, langTestCases.lang);
-      t.is(reading, testCase.expectedReading);
+      expect(reading).toBe(testCase.expectedReading);
     });
   }
 }

@@ -55,3 +55,25 @@ div.gloss-sc-div[data-sc-wikipedia='term-specifier'] {
 ## License
 
 The code in this repository is licensed under the MIT license.
+
+## Dev
+
+This project uses bun.
+
+To download and build a dictionary, run:
+
+```sh
+bun run start -l ja -d 2022-12-01
+```
+
+where `ja` is the language code and `2022.12.01` is the date of the dump (there
+are no newer DBPedia versions).
+
+You must be running this in linux with `bzip2` installed.
+
+If you want to export a minimal dictionary with 1000 lines for testing, set an
+environment variable:
+
+```sh
+NODE_ENV=dev
+```

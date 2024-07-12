@@ -1,3 +1,5 @@
+[![](https://img.shields.io/github/v/tag/marvnc/wikipedia-yomitan?style=for-the-badge&label=Download%20Latest)](https://github.com/MarvNC/wikipedia-yomitan/releases/latest)
+
 # Wikipedia for Yomitan
 
 A conversion of the [DBPedia](https://dbpedia.org/) short-abstract dumps of

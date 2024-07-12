@@ -1,5 +1,3 @@
-[![](https://img.shields.io/github/v/tag/marvnc/wikipedia-yomitan?style=for-the-badge&label=Download%20Latest)](https://github.com/MarvNC/wikipedia-yomitan/releases/latest)
-
 # Wikipedia for Yomitan
 
 A conversion of the [DBPedia](https://dbpedia.org/) short-abstract dumps of
@@ -17,6 +15,8 @@ more Yomitan dictionaries and tools, see
 [Yomichan Dictionaries](https://github.com/MarvNC/yomichan-dictionaries).
 
 ## Download
+
+[![](https://img.shields.io/github/v/tag/marvnc/wikipedia-yomitan?style=for-the-badge&label=Download%20Latest)](https://github.com/MarvNC/wikipedia-yomitan/releases/latest)
 
 Get the latest version from the
 [releases page](https://github.com/MarvNC/wikipedia-yomitan/releases/latest).

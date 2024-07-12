@@ -72,6 +72,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: out
+          merge-multiple: true
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2

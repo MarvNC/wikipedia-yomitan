@@ -11,8 +11,8 @@ import { readdir } from 'node:fs/promises';
 
 const EXPORT_FILE = './release.md';
 
-const version = await getVersion();
-let md = `# Download
+const version = process.argv[2] ?? (await getVersion());
+let md = `## Download
 | Language | Download |
 | --- | --- |
 `;
@@ -22,7 +22,7 @@ for (const file of files) {
   const lang = languageUtils[file.substring(0, 2).toLowerCase()];
   md += `| ${
     lang.fullName
-  } | [Download](https://github.com/MarvNC/wikipedia-yomitan/releases/latest/download/${file.replace(
+  } | [Download](https://github.com/MarvNC/wikipedia-yomitan/releases/download/${version}/${file.replace(
     / /g,
     '.'
   )}) |\n`;

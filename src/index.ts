@@ -16,8 +16,10 @@ import { processLine } from './yomitan/processLine';
 
 const outputZipName = (lang: string, date: string, version: string) =>
   `${lang} Wikipedia [${date}] (v${version}).zip`;
+const OUT_DIRECTORY = './out';
 
 (async () => {
+  const dev = process.env.NODE_ENV === 'dev';
   const version = await getVersion();
 
   console.log(`Using version ${version}`);
@@ -27,15 +29,42 @@ const outputZipName = (lang: string, date: string, version: string) =>
   console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
 
   const filePath = await downloadDumps(lang, date);
-  const fileHandle = file(filePath);
-  const fileReader = fileHandle.stream();
-  const lineReader = fileReader.getReader();
 
   const dict = new Dictionary({
     // @ts-ignore
     fileName: outputZipName(lang, date, version),
   });
 
+  const processedLines = await readAndProcessLines(filePath, dict, lang, dev);
+
+  console.log(`Processed ${processedLines} lines, exporting zip...`);
+
+  await dict.setIndex({
+    title: `${lang.toUpperCase()} Wikipedia [${date}] (v${version})`,
+    revision: `wikipedia_${version}`,
+    format: 3,
+    url: 'https://github.com/MarvNC/wikipedia-yomitan',
+    description: `Wikipedia short abstracts from the DBPedia dataset available at https://databus.dbpedia.org/dbpedia/text/short-abstracts.`,
+    author: 'Marv',
+    attribution: `https://${lang.toLowerCase()}.wikipedia.org/`,
+  });
+
+  await dict.export(OUT_DIRECTORY);
+  console.log(`Exported to ${outputZipName(lang, date, version)}`);
+  process.exit(0);
+})().catch((e) => {
+  console.error(e);
+});
+
+async function readAndProcessLines(
+  filePath: string,
+  dict: Dictionary,
+  lang: string,
+  dev: boolean
+) {
+  const fileHandle = file(filePath);
+  const fileReader = fileHandle.stream();
+  const lineReader = fileReader.getReader();
   let processedLines = 0;
   let buffer = '';
   const progressBar = new cliProgress.SingleBar({
@@ -62,30 +91,13 @@ const outputZipName = (lang: string, date: string, version: string) =>
       processedLines++;
 
       progressBar.update(processedLines);
+
+      if (processedLines >= 1000 && dev) {
+        return processedLines;
+      }
     }
   }
 
   progressBar.stop();
-
-  console.log(`Processed ${processedLines} lines, exporting zip...`);
-
-  await dict.setIndex({
-    title: `${lang.toUpperCase()} Wikipedia [${date}] (v${version})`,
-    revision: `wikipedia_${version}`,
-    format: 3,
-    url: 'https://github.com/MarvNC/wikipedia-yomitan',
-    description: `Wikipedia short abstracts from the DBPedia dataset available at https://databus.dbpedia.org/dbpedia/text/short-abstracts.
-
-Recommended custom CSS:
-div.gloss-sc-div[data-sc-wikipedia=term-specifier] {
-  color: #e5007f;
-}`,
-    author: 'Wikipedians, DBPedia, Marv',
-    attribution: `https://${lang.toLowerCase()}.wikipedia.org/`,
-  });
-
-  await dict.export('./');
-  console.log(`Exported to ${outputZipName(lang, date, version)}`);
-})().catch((e) => {
-  console.error(e);
-});
+  return processedLines;
+}

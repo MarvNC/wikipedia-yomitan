@@ -30,6 +30,7 @@ export function processLine(line: string, dict: Dictionary, lang: string) {
       },
       style: {
         fontSize: '1.5em',
+        color: '#e5007f',
       },
     };
 

@@ -1,7 +1,8 @@
 {
   "version": "1.5.0",
   "scripts": {
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "startall": "bun run src/index.ts -a"
   },
   "dependencies": {
     "inly": "^5.0.1",

@@ -16,36 +16,44 @@ more Yomitan dictionaries and tools, see
 
 ## Download
 
-- **[Download JA Wikipedia for Yomitan](https://drive.google.com/open?id=14aNH8TeVDIk_EeW1zh4Os8VN7smK4vPd&usp=drive_fs)**
-  (~1.2M entries)
-  - **Last updated 2024-01-06: v1.4.0** (Better readings parsing)
-- **[Download ZH Wikipedia for Yomitan](https://drive.google.com/open?id=14ZECT8FVl0KjxV3JPhzgdmIV8GEgx5ht&usp=drive_fs)**
-  (~1.2M entries)
-  - **Last updated 2023-12-21: v1.1.0**
-
-## Usage
-
-Recommended custom CSS to add to the `Configure custom CSS…` section of the
-options page:
-
-```css
-/* Wikipedia */
-div.gloss-sc-div[data-sc-wikipedia='term-specifier'] {
-  color: #e5007f;
-}
-```
+Get the latest version from the
+[releases page](https://github.com/MarvNC/wikipedia-yomitan/releases/latest).
 
 <!-- prettier-ignore -->
-> [!CAUTION]
-> Due to the size of the dictionaries, there are currently issues
-> with being unable to delete the dictionaries from Yomichan. The issue is
-> [fixed in Yomitan 23.12.29](https://github.com/themoeway/yomitan/pull/382),
-> so I recommend installing Yomitan if you haven't already.
+> [!WARNING] 
+> These dictionaries are quite large and may use 5x of the
+> original zip file size after being imported to Yomitan.
 
-<!-- prettier-ignore -->
-> [!IMPORTANT] 
-> These dictionaries are quite large and may use up to 1GB of
-> storage space after being imported.
+## Supported Languages
+
+| Language                      | Wiki                           | Entries |
+| ----------------------------- | ------------------------------ | ------- |
+| Arabic (العربية)              | [ar](https://ar.wikipedia.org) | 1162853 |
+| Basque (Euskara)              | [eu](https://eu.wikipedia.org) | 390609  |
+| Catalan (Català)              | [ca](https://ca.wikipedia.org) | 679999  |
+| Chinese (中文)                | [zh](https://zh.wikipedia.org) | 1249877 |
+| Czech (Čeština)               | [cs](https://cs.wikipedia.org) | 489997  |
+| Dutch (Nederlands)            | [nl](https://nl.wikipedia.org) | 1999971 |
+| Esperanto (Esperanto)         | [eo](https://eo.wikipedia.org) | 299996  |
+| French (Français)             | [fr](https://fr.wikipedia.org) | 2309295 |
+| German (Deutsch)              | [de](https://de.wikipedia.org) | 2399998 |
+| Greek (Ελληνικά)              | [el](https://el.wikipedia.org) | 199999  |
+| Hungarian (Magyar)            | [hu](https://hu.wikipedia.org) | 469999  |
+| Indonesian (Bahasa Indonesia) | [id](https://id.wikipedia.org) | 609999  |
+| Irish (Gaeilge)               | [ga](https://ga.wikipedia.org) | 54423   |
+| Italian (Italiano)            | [it](https://it.wikipedia.org) | 1629999 |
+| Japanese (日本語)             | [ja](https://ja.wikipedia.org) | 1279999 |
+| Korean (한국어)               | [ko](https://ko.wikipedia.org) | 529999  |
+| Polish (Polski)               | [pl](https://pl.wikipedia.org) | 1439992 |
+| Portuguese (Português)        | [pt](https://pt.wikipedia.org) | 1049999 |
+| Russian (Русский)             | [ru](https://ru.wikipedia.org) | 1672218 |
+| Spanish (Español)             | [es](https://es.wikipedia.org) | 1689995 |
+| Swedish (Svenska)             | [sv](https://sv.wikipedia.org) | 2449999 |
+| Ukrainian (Українська)        | [uk](https://uk.wikipedia.org) | 1129999 |
+
+Note that English is not included as the exported file is too large and does not
+work in Yomitan. I suggest using an extension such as Wikiwand for English
+Wikipedia popups.
 
 ## Screenshots
 

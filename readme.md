@@ -60,13 +60,7 @@ The code in this repository is licensed under the MIT license.
 
 This project uses bun.
 
-To download the abstracts for a language, run:
-
-```sh
-/src/downloadDump.sh ja 2022.12.01
-```
-
-To build a dictionary, run:
+To download and build a dictionary, run:
 
 ```sh
 bun run start -l ja -d 2022-12-01
@@ -74,3 +68,5 @@ bun run start -l ja -d 2022-12-01
 
 where `ja` is the language code and `2022.12.01` is the date of the dump (there
 are no newer DBPedia versions).
+
+You must be running this in linux with `bzip2` installed.

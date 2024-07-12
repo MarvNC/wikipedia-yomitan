@@ -11,11 +11,10 @@ import type {
 } from 'yomichan-dict-builder/dist/types/yomitan/termbank';
 
 import * as cliProgress from 'cli-progress';
+import { downloadDumps } from './util/downloadDumps';
 
 const outputZipName = (lang: string, date: string, version: string) =>
   `${lang} Wikipedia [${date}] (v${version}).zip`;
-const shortAbstractFile = (lang: string) =>
-  `short-abstracts_lang=${lang.toLowerCase()}.ttl`;
 
 (async () => {
   const version = await getVersion();
@@ -23,9 +22,11 @@ const shortAbstractFile = (lang: string) =>
   console.log(`Using version ${version}`);
 
   const { lang, date } = readArgs();
-  console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
 
-  const filePath = shortAbstractFile(lang);
+  
+  console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
+  
+  const filePath = await downloadDumps(lang, date);
   const fileHandle = file(filePath);
   const fileReader = fileHandle.stream();
   const lineReader = fileReader.getReader();

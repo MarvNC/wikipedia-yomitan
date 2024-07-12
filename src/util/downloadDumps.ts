@@ -1,4 +1,4 @@
-import { $ } from 'bun';
+import { write } from 'bun';
 import { exists, mkdir } from 'node:fs/promises';
 import { join } from 'path';
 import { LanguageCode } from '../constants';
@@ -39,7 +39,12 @@ export async function downloadDumps(lang: LanguageCode, date: string) {
   if (!fileExists && !archiveExists) {
     const url = URL(lang, date);
     console.log(`Downloading ${url}`);
-    await $`wget ${url} -O ${archivePath}`;
+    // await $`wget ${url} -O ${archivePath}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to download ${url}: ${response.statusText}`);
+    }
+    await write(archivePath, await response.arrayBuffer());
   }
 
   // Extract the archive if it does not exist

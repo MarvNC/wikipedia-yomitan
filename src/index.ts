@@ -47,6 +47,8 @@ async function processWikipediaDataForLang(
 
   const filePath = await downloadDumps(lang, date);
 
+  console.log(`Downloaded, now creating dictionary...`);
+
   const dict = new Dictionary({
     // @ts-ignore
     fileName: outputZipName(lang, date, version),

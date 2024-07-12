@@ -9,6 +9,35 @@ on:
 jobs:
   run-and-upload:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        # Copy from constants.ts
+        language:
+          [
+            'hu',
+            'eu',
+            'pt',
+            'ga',
+            'el',
+            'de',
+            'eo',
+            'ar',
+            'id',
+            'pl',
+            'cs',
+            'ca',
+            'sv',
+            'ru',
+            'nl',
+            'uk',
+            'en',
+            'ko',
+            'es',
+            'ja',
+            'zh',
+            'fr',
+            'it',
+          ]
 
     steps:
       - name: Checkout Repository
@@ -22,13 +51,14 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
-      - name: Run Application
-        run: bun run start -a
+      - name: Make Dictionary for ${{ matrix.language }}
+        run: bun run start -l ${{ matrix.language }} -d 2022-12-01
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           path: out/
+
   release:
     runs-on: windows-latest
     if: startsWith(github.ref, 'refs/tags/v')
@@ -36,6 +66,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -49,13 +82,14 @@ jobs:
         run: bun run releasetable ${{ github.ref }}
 
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          body_path: release.md
-          draft: true
+
+          draft: false
           prerelease: false
+          generate_release_notes: true
+          append_body: true
+          body_path: release.md
+          files: |
+            out/

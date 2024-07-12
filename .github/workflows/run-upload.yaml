@@ -8,7 +8,7 @@ on:
 
 jobs:
   run-and-upload:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout Repository
@@ -29,3 +29,32 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: out/
+  release:
+    runs-on: windows-latest
+    needs: run-and-upload
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate Release Table
+        run: bun run releasetable ${{ github.ref }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body_path: release.md
+          draft: true
+          prerelease: false

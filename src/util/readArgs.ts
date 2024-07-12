@@ -1,5 +1,5 @@
 import { parseArgs } from 'util';
-import { LanguageCode, languageUtils } from '../constants';
+import { LANGUAGE_CODES, LanguageCode, languageUtils } from '../constants';
 
 export function readArgs() {
   const { values } = parseArgs({
@@ -21,11 +21,11 @@ export function readArgs() {
   const dateInput = values.date as string;
 
   // Assert language is valid
-  if (!langInput || !languageUtils[langInput]) {
+  if (!langInput || !LANGUAGE_CODES.includes(langInput)) {
     throw new Error(
-      `Language ${langInput} is not allowed or not provided. Allowed languages: ${Object.keys(
-        languageUtils
-      ).join(', ')}`
+      `Language ${langInput} is not allowed or not provided. Allowed languages: ${LANGUAGE_CODES.join(
+        ', '
+      )}`
     );
   }
 

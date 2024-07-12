@@ -1,7 +1,7 @@
 import { $ } from 'bun';
 import { exists } from 'node:fs/promises';
 import { join } from 'path';
-import { LanguageCode, languageUtils } from '../constants';
+import { LanguageCode } from '../constants';
 
 const ARCHIVE = (lang: string) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl.bz2`;

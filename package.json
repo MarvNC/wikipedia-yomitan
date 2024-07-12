@@ -4,7 +4,6 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
-    "cli-progress": "^3.12.0",
     "inly": "^5.0.1",
     "pinyin-pro": "^3.18.5",
     "yomichan-dict-builder": "^2.6.0"

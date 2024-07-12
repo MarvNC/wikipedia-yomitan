@@ -70,3 +70,10 @@ where `ja` is the language code and `2022.12.01` is the date of the dump (there
 are no newer DBPedia versions).
 
 You must be running this in linux with `bzip2` installed.
+
+If you want to export a minimal dictionary with 1000 lines for testing, set an
+environment variable:
+
+```sh
+NODE_ENV=dev
+```

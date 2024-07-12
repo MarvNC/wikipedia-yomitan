@@ -2,6 +2,7 @@ import { $ } from 'bun';
 import { exists, mkdir } from 'node:fs/promises';
 import { join } from 'path';
 import { LanguageCode } from '../constants';
+const inly = require('inly');
 
 const ARCHIVE = (lang: string) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl.bz2`;
@@ -44,7 +45,11 @@ export async function downloadDumps(lang: LanguageCode, date: string) {
   // Extract the archive if it does not exist
   if (!fileExists) {
     console.log(`Extracting ${archivePath}`);
-    await $`bzip2 -dc ${archivePath} >${filePath}`;
+    const extract = inly(archivePath, DOWNLOAD_DIR);
+    await new Promise((resolve, reject) => {
+      extract.on('error', reject);
+      extract.on('end', resolve);
+    });
   }
 
   console.log(`Finished downloading and extracting ${lang} dump`);

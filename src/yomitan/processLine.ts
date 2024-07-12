@@ -4,7 +4,8 @@ import {
   StructuredContent,
   StructuredContentNode,
 } from 'yomichan-dict-builder/dist/types/yomitan/termbank';
-import { languages, linkCharacter } from '../constants';
+import * as path from 'path';
+import { WIKIPEDIA_ICON_FILEPATH } from '../constants';
 
 /**
  * Reads a line and adds that term entry to the dictionary
@@ -88,37 +89,36 @@ function createReadMoreNode(
   lang: string
 ): StructuredContentNode {
   const articleLink = `https://${lang.toLowerCase()}.wikipedia.org/wiki/${termSlug}`;
-  const readTheRest = getReadMoreText(lang);
   return {
-    tag: 'ul',
+    tag: 'div',
     content: [
       {
-        tag: 'li',
+        tag: 'span',
         content: [
+          {
+            tag: 'img',
+            path: WIKIPEDIA_ICON_FILEPATH,
+            collapsed: false,
+            collapsible: false,
+            height: 1,
+            width: 1,
+            sizeUnits: 'em',
+            verticalAlign: 'middle',
+          },
+          ' ',
           {
             tag: 'a',
             href: articleLink,
-            content: readTheRest,
+            content: `Wikipedia`,
           },
         ],
       },
     ],
     data: {
-      wikipedia: 'continue-reading',
+      wikipedia: 'footer',
     },
     style: {
-      listStyleType: `"${linkCharacter}"`,
+      textAlign: 'end',
     },
   };
-}
-
-function getReadMoreText(lang: string): string {
-  switch (lang) {
-    case languages.ja:
-      return '続きを読む';
-    case languages.zh:
-      return '查看更多';
-    default:
-      return 'Read more';
-  }
 }

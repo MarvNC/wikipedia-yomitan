@@ -5,6 +5,7 @@ import { getVersion } from './util/getVersion';
 import { downloadDumps } from './util/downloadDumps';
 import { readArgs } from './util/readArgs';
 import { readAndProcessLines } from './util/readAndProcessLines';
+import { WIKIPEDIA_ICON_FILEPATH } from './constants';
 
 const outputZipName = (lang: string, date: string, version: string) =>
   `${lang} Wikipedia [${date}] (v${version}).zip`;
@@ -26,6 +27,8 @@ const OUT_DIRECTORY = './out';
     // @ts-ignore
     fileName: outputZipName(lang, date, version),
   });
+
+  dict.addFile(WIKIPEDIA_ICON_FILEPATH, WIKIPEDIA_ICON_FILEPATH);
 
   const processedLines = await readAndProcessLines(filePath, dict, lang, dev);
 

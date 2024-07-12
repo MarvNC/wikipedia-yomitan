@@ -64,6 +64,7 @@ function createTermSpecifierNode(termSpecifier: string): StructuredContentNode {
     },
     style: {
       fontSize: '1.5em',
+      color: '#e5007f',
     },
   };
 }

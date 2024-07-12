@@ -31,6 +31,7 @@ jobs:
           path: out/
   release:
     runs-on: windows-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: run-and-upload
     steps:
       - name: Checkout Repository

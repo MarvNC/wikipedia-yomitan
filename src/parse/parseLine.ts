@@ -11,10 +11,7 @@ type ParsedLine = {
 };
 
 /**
- *
- * @param {string} line
- * @param {typeof languages[keyof typeof languages]} lang
- * @returns {ParsedLine}
+ * Parses a line of text and extracts relevant information.
  */
 function parseLine(
   line: string,

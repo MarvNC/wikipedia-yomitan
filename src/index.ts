@@ -23,9 +23,8 @@ const outputZipName = (lang: string, date: string, version: string) =>
 
   const { lang, date } = readArgs();
 
-  
   console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
-  
+
   const filePath = await downloadDumps(lang, date);
   const fileHandle = file(filePath);
   const fileReader = fileHandle.stream();

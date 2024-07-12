@@ -3,14 +3,14 @@ import { Dictionary, TermEntry } from 'yomichan-dict-builder';
 import { parseArgs } from 'util';
 
 import { parseLine } from './parse/parseLine';
-import { languages } from './constants';
+import { languages, linkCharacter } from './constants';
 import { getVersion } from './util/getVersion';
 import type {
   StructuredContent,
   StructuredContentNode,
 } from 'yomichan-dict-builder/dist/types/yomitan/termbank';
 
-const linkCharacter = '⧉';
+import * as cliProgress from 'cli-progress';
 
 const outputZipName = (lang: string, date: string, version: string) =>
   `${lang} Wikipedia [${date}] (v${version}).zip`;
@@ -37,6 +37,13 @@ const shortAbstractFile = (lang: string) =>
 
   let processedLines = 0;
   let buffer = '';
+  const progressBar = new cliProgress.SingleBar({
+    format: `{value} lines | {file}`,
+  });
+
+  progressBar.start(0, 0, {
+    file: filePath,
+  });
 
   while (true) {
     const { done, value } = await lineReader.read();
@@ -51,16 +58,16 @@ const shortAbstractFile = (lang: string) =>
       buffer = buffer.slice(lineEnd + 1);
       processedLines++;
 
-      if (processedLines % 1000 === 0) {
-        console.log(`Processed ${processedLines} lines`);
-      }
+      progressBar.update(processedLines);
     }
   }
+
+  progressBar.stop();
 
   console.log(`Processed ${processedLines} lines, exporting zip...`);
 
   await dict.setIndex({
-    title: `${lang} Wikipedia [${date}] (v${version})`,
+    title: `${lang.toUpperCase()} Wikipedia [${date}] (v${version})`,
     revision: `wikipedia_${version}`,
     format: 3,
     url: 'https://github.com/MarvNC/wikipedia-yomitan',

@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -25,7 +30,7 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
-      - name: Run Application
+      - name: Build Dictionaries
         run: bun run start -a
 
       - name: Upload Artifacts

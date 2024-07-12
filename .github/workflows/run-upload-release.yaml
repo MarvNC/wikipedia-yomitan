@@ -12,8 +12,7 @@ jobs:
     strategy:
       matrix:
         # Copy from constants.ts
-        language:
-          [
+        language: [
             'hu',
             'eu',
             'pt',
@@ -83,13 +82,11 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Generate Release Table
-        run: bun run releasetable ${{ github.ref }}
+        run: bun run releasetable ${{ github.ref_name }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-
           draft: false
           prerelease: false
           generate_release_notes: true

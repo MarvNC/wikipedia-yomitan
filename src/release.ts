@@ -18,14 +18,16 @@ let md = `## Download
 `;
 
 const files = await readdir('./out');
+files.sort((a, b) => {
+  const langA = languageUtils[a.substring(0, 2).toLowerCase()];
+  const langB = languageUtils[b.substring(0, 2).toLowerCase()];
+  return langA.fullName.localeCompare(langB.fullName);
+});
+
 for (const file of files) {
   const lang = languageUtils[file.substring(0, 2).toLowerCase()];
-  md += `| ${
-    lang.fullName
-  } | [Download](https://github.com/MarvNC/wikipedia-yomitan/releases/download/${version}/${file.replace(
-    / /g,
-    '.'
-  )}) |\n`;
+  const fileCleanName = file.replace(/[ \[\]\(\)]+/g, '.').replace(/\.+/g, '.');
+  md += `| ${lang.fullName} (${lang.nativeName}) | [Download](https://github.com/MarvNC/wikipedia-yomitan/releases/download/${version}/${fileCleanName}) |\n`;
 }
 
 // Export

@@ -1,5 +1,5 @@
 import { $ } from 'bun';
-import { exists } from 'node:fs/promises';
+import { exists, mkdir } from 'node:fs/promises';
 import { join } from 'path';
 import { LanguageCode } from '../constants';
 
@@ -22,13 +22,17 @@ export async function downloadDumps(lang: LanguageCode, date: string) {
 
   // Check if download directory exists
   if (!(await exists(DOWNLOAD_DIR))) {
-    await $`mkdir ${DOWNLOAD_DIR}`;
+    console.log(`Creating download directory ${DOWNLOAD_DIR}`);
+    await mkdir(DOWNLOAD_DIR);
   }
 
   const archivePath = join(DOWNLOAD_DIR, ARCHIVE(lang));
   const filePath = join(DOWNLOAD_DIR, FILE(lang));
   const archiveExists = await exists(archivePath);
   const fileExists = await exists(filePath);
+  console.log(
+    `${lang}: archiveExists=${archiveExists}, fileExists=${fileExists}`
+  );
 
   // Download the archive if neither the file nor archive exists
   if (!fileExists && !archiveExists) {
@@ -42,6 +46,8 @@ export async function downloadDumps(lang: LanguageCode, date: string) {
     console.log(`Extracting ${archivePath}`);
     await $`bzip2 -dc ${archivePath} >${filePath}`;
   }
+
+  console.log(`Finished downloading and extracting ${lang} dump`);
 
   return filePath;
 }

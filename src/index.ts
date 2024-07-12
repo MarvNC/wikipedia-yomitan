@@ -5,7 +5,12 @@ import { getVersion } from './util/getVersion';
 import { downloadDumps } from './util/downloadDumps';
 import { readArgs } from './util/readArgs';
 import { readAndProcessLines } from './util/readAndProcessLines';
-import { WIKIPEDIA_ICON_FILEPATH } from './constants';
+import {
+  LanguageCode,
+  WIKIPEDIA_ICON_FILEPATH,
+  DBPEDIA_DATE,
+  LANGUAGE_CODES,
+} from './constants';
 
 const outputZipName = (lang: string, date: string, version: string) =>
   `${lang} Wikipedia [${date}] (v${version}).zip`;
@@ -17,8 +22,27 @@ const OUT_DIRECTORY = './out';
 
   console.log(`Using version ${version}`);
 
-  const { lang, date } = readArgs();
+  const { lang, date, all } = readArgs();
 
+  if (!all) {
+    await processWikipediaDataForLang(version, dev, lang, date);
+  } else {
+    for (const lang of LANGUAGE_CODES) {
+      await processWikipediaDataForLang(version, dev, lang, DBPEDIA_DATE);
+    }
+  }
+
+  process.exit(0);
+})().catch((e) => {
+  console.error(e);
+});
+
+async function processWikipediaDataForLang(
+  version: string,
+  dev: boolean,
+  lang: LanguageCode,
+  date: string
+) {
   console.log(`Converting ${lang} Wikipedia dump from ${date}...`);
 
   const filePath = await downloadDumps(lang, date);
@@ -46,7 +70,4 @@ const OUT_DIRECTORY = './out';
 
   await dict.export(OUT_DIRECTORY);
   console.log(`Exported to ${outputZipName(lang, date, version)}`);
-  process.exit(0);
-})().catch((e) => {
-  console.error(e);
-});
+}

@@ -2,6 +2,8 @@ import * as path from 'path';
 import { getReadingFromDefinition } from './parse/readingParse';
 import { pinyin } from 'pinyin-pro';
 
+export const DBPEDIA_DATE = '2022-12-01';
+
 export const LANGUAGE_CODES = [
   'hu',
   'eu',

@@ -12,6 +12,10 @@ export function readArgs() {
         type: 'string',
         short: 'd',
       },
+      all: {
+        type: 'boolean',
+        short: 'a',
+      },
     },
     strict: true,
     allowPositionals: false,
@@ -21,7 +25,7 @@ export function readArgs() {
   const dateInput = values.date as string;
 
   // Assert language is valid
-  if (!langInput || !LANGUAGE_CODES.includes(langInput)) {
+  if (langInput != null && !LANGUAGE_CODES.includes(langInput)) {
     throw new Error(
       `Language ${langInput} is not allowed or not provided. Allowed languages: ${LANGUAGE_CODES.join(
         ', '
@@ -30,11 +34,11 @@ export function readArgs() {
   }
 
   // Assert date is valid in format YYYY-MM-DD
-  if (!dateInput || !/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
+  if (dateInput != null && !/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
     throw new Error(
       `Date ${dateInput} is not valid or not provided. Format: YYYY-MM-DD`
     );
   }
 
-  return { lang: langInput, date: dateInput };
+  return { lang: langInput, date: dateInput, all: !!values.all };
 }

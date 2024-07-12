@@ -57,7 +57,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          path: out/
+          path: out/*.zip
 
   release:
     runs-on: windows-latest
@@ -92,4 +92,4 @@ jobs:
           append_body: true
           body_path: release.md
           files: |
-            out/
+            out/*.zip

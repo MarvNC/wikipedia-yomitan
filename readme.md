@@ -84,8 +84,6 @@ To download and build all available languages, run:
 bun run start -a
 ```
 
-You must be running this in linux with `bzip2` installed.
-
 If you want to export a minimal dictionary with 1000 lines for testing, set an
 environment variable:
 

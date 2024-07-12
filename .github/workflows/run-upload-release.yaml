@@ -30,7 +30,7 @@ jobs:
             'ru',
             'nl',
             'uk',
-            'en',
+            # 'en', # too big, crashes the runner
             'ko',
             'es',
             'ja',

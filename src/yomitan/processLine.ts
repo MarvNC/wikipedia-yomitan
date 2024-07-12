@@ -4,18 +4,23 @@ import {
   StructuredContent,
   StructuredContentNode,
 } from 'yomichan-dict-builder/dist/types/yomitan/termbank';
-import * as path from 'path';
-import { WIKIPEDIA_ICON_FILEPATH } from '../constants';
+import { LanguageCode, WIKIPEDIA_ICON_FILEPATH } from '../constants';
 
 /**
  * Reads a line and adds that term entry to the dictionary
  */
-export function processLine(line: string, dict: Dictionary, lang: string) {
+export function processLine(
+  line: string,
+  dict: Dictionary,
+  lang: LanguageCode
+) {
   const { term, termSlug, termSpecifier, reading, definition } = parseLine(
     line,
     lang
   );
-  const termEntry = createTermEntry(term, reading);
+  const termEntry = new TermEntry(term);
+  termEntry.setReading(reading);
+
   const structuredContentList = createStructuredContentList(
     termSpecifier,
     definition,
@@ -31,18 +36,11 @@ export function processLine(line: string, dict: Dictionary, lang: string) {
   dict.addTerm(termEntry.build());
 }
 
-// Helper functions
-function createTermEntry(term: string, reading: string): TermEntry {
-  const termEntry = new TermEntry(term);
-  termEntry.setReading(reading);
-  return termEntry;
-}
-
 function createStructuredContentList(
   termSpecifier: string | null,
   definition: string,
   termSlug: string,
-  lang: string
+  lang: LanguageCode
 ): StructuredContent[] {
   const structuredContentList: StructuredContent[] = [];
 
@@ -86,7 +84,7 @@ function createDefinitionNode(definition: string): StructuredContentNode {
 
 function createReadMoreNode(
   termSlug: string,
-  lang: string
+  lang: LanguageCode
 ): StructuredContentNode {
   const articleLink = `https://${lang.toLowerCase()}.wikipedia.org/wiki/${termSlug}`;
   return {

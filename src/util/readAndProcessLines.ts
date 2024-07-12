@@ -2,11 +2,12 @@ import { file } from 'bun';
 import { Dictionary } from 'yomichan-dict-builder';
 import * as cliProgress from 'cli-progress';
 import { processLine } from '../yomitan/processLine';
+import { LanguageCode } from '../constants';
 
 export async function readAndProcessLines(
   filePath: string,
   dict: Dictionary,
-  lang: string,
+  lang: LanguageCode,
   dev: boolean
 ) {
   const fileHandle = file(filePath);

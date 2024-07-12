@@ -1,6 +1,7 @@
 import { $ } from 'bun';
 import { exists } from 'node:fs/promises';
 import { join } from 'path';
+import { LanguageCode, languageUtils } from '../constants';
 
 const ARCHIVE = (lang: string) =>
   `short-abstracts_lang=${lang.toLowerCase()}.ttl.bz2`;
@@ -11,15 +12,13 @@ const URL = (lang: string, date: string) =>
   )}`;
 const DOWNLOAD_DIR = './download';
 
-export async function downloadDumps(lang: string, date: string) {
+export async function downloadDumps(lang: LanguageCode, date: string) {
   // Replace - with . in date
   date = date.replace(/-/g, '.');
-  // Check if lang is in format YYYY.MM.DD
+  // Check if date is in format YYYY.MM.DD
   if (!/^\d{4}\.\d{2}\.\d{2}$/.test(date)) {
     throw new Error(`Invalid date format: ${date}`);
   }
-
-  // TODO: Check lang
 
   // Check if download directory exists
   if (!(await exists(DOWNLOAD_DIR))) {
